@@ -1,0 +1,143 @@
+.gameBoardContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.gameBoard {
+    font-family: 'Arial, sans-serif';
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+.letterSetContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 500px;
+    margin: 20px auto;
+  }
+  
+.letterSet {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    padding: 10px;
+    margin: 5px;
+    font-size: 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+  }
+  
+.inputStyle {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: calc(100% - 22px);
+  }
+
+.hintButton {
+    width: 33%;
+    height: 70px;
+  }
+  
+.submitButton {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+  }
+  
+.guessedWordsStyle {
+    margin-top: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .wordsToFind {
+    background-color: #ccc;
+    border-radius: 10px;
+    padding: 10px;
+  }
+
+.messageContainer {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Ensure it's above other content */
+    /* animation: fadeOut 5s forwards; Optional: add fade-out effect */
+  }
+  
+  @keyframes fadeOut {
+    0%, 93% { /* Adjust this percentage based on how long you want the message to stay visible */
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  .modalBackground {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100; /* Ensure it appears above other content */
+  }
+  
+  .modalContainer {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 500px;
+    width: 90%;
+    color: #333; /* Dark gray color for better readability */
+  }
+  
+  .modalHeader h5, .modalContent, .modalFooter {
+    color: #333; /* Ensures text in these elements is also dark gray for consistency */
+  }
+  
+  .modalHeader, .modalFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .closeButton, .modalCloseButton {
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    font-size: 1.5rem;
+  }
+  
+  .modalContent {
+    margin-top: 20px;
+  }
+  
+  .letterSet.correct {
+    background-color: green;
+  }
+  
+  .letterSet.incorrect {
+    background-color: red;
+  }
