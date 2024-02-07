@@ -1,7 +1,7 @@
 {
   "name": "wordsets",
   "version": "0.1.0",
-  "homepage": "https://robertsbaer.github.io/letrsets",
+  "homepage": "https://letrsets.com",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
