@@ -74,14 +74,14 @@
     width: 80vw;
     border: 10px solid #ff8c00;
     border-radius: 10px;
-    font-size: 18px;
+    font-size: 20px;
     line-height: 1.1;
   }
   p {
-    font-size: 10px;
+    font-size: 14px;
   }
   h3 {
-    font-size: 12px;
+    font-size: 18px;
   }
   
 }
