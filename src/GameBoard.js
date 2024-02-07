@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./GameBoard.css";
 import wordsList from "./words.json";
-import wordsForFebruary2024 from "./words_for_February_2024.json";
+import wordsFor2024 from "./words_for_2024.json";
 
 function GameBoard() {
   const [userInput, setUserInput] = useState("");
@@ -109,7 +109,7 @@ function GameBoard() {
     const todayKey = `${year}-${month}-${day}`;
 
     // Get the words for today from the JSON file
-    const wordsForToday = wordsForFebruary2024[todayKey];
+    const wordsForToday = wordsFor2024[todayKey];
 
     // If there are no words for today, you might want to handle this case differently
     if (!wordsForToday) {
@@ -175,107 +175,56 @@ function GameBoard() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const inputWord = userInput.toLowerCase();
-    const newLetterSetStatus = { ...letterSetStatus };
-
-    // Get the current word
-    const currentWord = selectedWords.find(
-      (word) => word.length === selectedWordLength
-    );
-
-    if (selectedWordLength === null) {
-      setMessage({
-        text: "Please select the level you are trying to solve!",
-        visible: true,
-      });
-      setTimeout(() => {
-        setMessage({ text: "", visible: false });
-      }, 5000); // 5000 milliseconds = 10 seconds
-
-      return;
-    }
-
-    // Check if the length of the input word matches the selected word length
-    if (inputWord.length === selectedWordLength) {
-      // Check each letter set in the user's input
-      for (let i = 0; i < inputWord.length; i += 2) {
-        const set = inputWord.substring(i, i + 2).toUpperCase();
-
-        // If the letter set is part of the current word at the correct position and hasn't been used before, mark it as correct
-        if (
-          currentWord.toUpperCase().substring(i, i + 2) === set &&
-          !usedSets[set]
-        ) {
-          newLetterSetStatus[set] = "correct";
-          setUsedSets((prevUsedSets) => ({ ...prevUsedSets, [set]: true }));
-        } else if (!usedSets[set]) {
-          // Otherwise, mark it as incorrect
-          newLetterSetStatus[set] = "incorrect";
-        }
-      }
-    } else {
-      setMessage({
-        text: "Selected the level you're trying to solve!",
-        visible: true,
-      });
-      return;
-    }
-
-    setLetterSetStatus(newLetterSetStatus);
-
-    if (isWordValid(inputWord)) {
-      const wordLength = inputWord.length;
+  
+    // Check if the input word matches the expected word and if the game is not over
+    if (isWordValid(inputWord) && !gameOver) {
+      // Add the input word to guessedWords if it's not already guessed
       if (!guessedWords.some(({ word }) => word.toLowerCase() === inputWord)) {
-        const newGuessedWords = [
-          ...guessedWords,
-          { word: inputWord, length: wordLength },
-        ];
+        const newGuessedWords = [...guessedWords, { word: inputWord, length: selectedWordLength }];
         setGuessedWords(newGuessedWords);
-        setMessage({ text: "Correct!", visible: true });
-
-        // Hide the message after 10 seconds
-        setTimeout(() => {
-          setMessage({ text: "", visible: false });
-        }, 5000); // 5000 milliseconds = 10 seconds
-
-        if (!wonLevels.includes(wordLength)) {
-          setWonLevels([...wonLevels, wordLength]);
+  
+        // Update the wonLevels state if this level hasn't been won yet
+        if (!wonLevels.includes(selectedWordLength)) {
+          setWonLevels([...wonLevels, selectedWordLength]);
         }
-
-        if (newGuessedWords.length === selectedWords.length) {
+  
+        // Check if all levels have been completed
+        if (wonLevels.length + 1 === selectedWords.length) { // +1 because we just added a new won level
+          // All levels have been successfully completed
           setMessage({
-            text: "Congratulations! All words have been found.",
+            text: "Congratulations! Come back tomorrow for another round.",
             visible: true,
           });
-          setGameOver(true);
+          setGameOver(true); // Set game over to true as all levels are completed
+        } else {
+          // Correct guess but not all levels completed
+          setMessage({
+            text: "Correct! Keep going.",
+            visible: true,
+          });
+          // Optionally, hide the message after some time
+          setTimeout(() => setMessage({ text: "", visible: false }), 5000);
         }
-
-        // Reset letterSetStatus after a correct guess
-        setLetterSetStatus({});
       } else {
+        // Word has already been guessed
         setMessage({
           text: "You've already guessed this word!",
           visible: true,
         });
-
-        // Hide the message after 10 seconds
-        setTimeout(() => {
-          setMessage({ text: "", visible: false });
-        }, 5000); // 5000 milliseconds = 10 seconds
+        setTimeout(() => setMessage({ text: "", visible: false }), 5000);
       }
     } else {
+      // Invalid guess or word does not match
       setMessage({
         text: "Invalid word or not matching the letter sets!",
         visible: true,
       });
-
-      // Hide the message after 10 seconds
-      setTimeout(() => {
-        setMessage({ text: "", visible: false });
-      }, 5000); // 5000 milliseconds = 10 seconds
+      setTimeout(() => setMessage({ text: "", visible: false }), 5000);
     }
-    setUserInput("");
-    setAttempts((prevAttempts) => prevAttempts + 1);
+    setUserInput(""); // Clear the input field
+    setAttempts((prevAttempts) => prevAttempts + 1); // Increment attempts
   };
+  
 
   const giveHint = () => {
     // Filter for unguessed words of the selected length
