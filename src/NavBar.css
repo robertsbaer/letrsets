@@ -1,3 +1,4 @@
+/* Base styles */
 .NavBar {
   display: flex;
   position: relative;
@@ -11,33 +12,31 @@
 
 .instruction-button {
   position: absolute;
-  top: 10;
+  top: 10px; /* Added 'px' to ensure the value is correctly interpreted */
   right: 0;
   margin-right: 10px;
-  font-size: 24px; /* Adjust the size of the question mark */
-  font-weight: bold; /* Make the question mark bold */
-  line-height: 40px; /* This helps center the text vertically */
-  width: 40px; /* Circle width */
-  height: 40px; /* Circle height, ensure it's the same as width for a perfect circle */
-  border-radius: 50%; /* Make the border a circle */
-  border: 2px solid #ffffff; /* Circle border color */
-  text-align: center; /* Center the question mark horizontally */
-  display: inline-flex; /* Use inline-flex for better centering */
-  justify-content: center; /* Center content horizontally */
-  align-items: center; /* Center content vertically */
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 40px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  text-align: center;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
   background-color: rgb(28, 48, 73);
-  color: #ffffff; /* Color of the question mark */
-  padding: 0; /* Adjust or remove padding */
-  box-sizing: border-box; /* Include padding and border in the element's total dimensions */
+  color: #ffffff;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .emphasize {
-  font-weight: bold; /* Makes the text bold */
-  color: #ff0000; /* Changes the color to red */
-  font-weight: bolder;
+  font-weight: bold; /* 'font-weight: bolder;' was removed as it is redundant */
+  color: #ff0000;
 }
-
 
 .game-title {
   color: white;
@@ -59,29 +58,66 @@
   border-radius: 10px;
 }
 
+/* Mobile styles */
 @media (max-width: 600px) {
   .NavBar {
-    height: auto;
+    flex-direction: column; /* Stack items vertically on smaller screens */
+    padding: 10px 20px; /* Adjust padding for better spacing on mobile */
   }
+
   .modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgb(28, 48, 73);
-    padding: 20px;
-    z-index: 1000;
-    width: 80vw;
-    border: 10px solid #ff8c00;
-    border-radius: 10px;
-    font-size: 20px;
-    line-height: 1.1;
+    width: 90vw;
+    padding: 10px; /* Adjusted for consistent padding on all sides */
+    font-size: 18px; /* Slightly reduced for better readability on small screens */
   }
-  p {
-    font-size: 14px;
+
+  p, h3 {
+    font-size: 0.875rem; /* Keep as is for smaller screens */
   }
-  h3 {
-    font-size: 18px;
+}
+
+/* Desktop and larger devices */
+@media (min-width: 601px) {
+  .NavBar {
+    padding: 0 40px; /* Increase padding for larger screens */
   }
-  
+
+  .instruction-button {
+    top: 20px; /* Adjust position for better alignment */
+  }
+
+  .modal {
+    width: 50vw; /* Adjust modal width for larger screens */
+    max-width: 600px; /* Increased max width for larger screens */
+    padding: 30px; /* Increase padding for a more spacious layout */
+    font-size: 22px; /* Increase font size for better readability */
+  }
+
+  p, h3 {
+    font-size: 1rem; /* Adjust font size for larger screens */
+  }
+}
+
+/* Adjustments for very small screens like iPhone SE and iPhone 5 */
+@media (max-width: 320px) {
+  .modal {
+    width: 90vw; /* Use a higher percentage of the viewport width */
+    max-width: 288px; /* Adjust max-width to fit small screens */
+    padding: 10px; /* Reduce padding to save space */
+    font-size: 16px; /* Reduce font size for better fit */
+    overflow-y: auto; /* Enable vertical scrolling if content overflows */
+  }
+
+  .modal p, .modal h3 {
+    font-size: 0.75rem; /* Smaller text for modal content */
+  }
+
+  /* Further adjust the instruction button if needed */
+  .instruction-button {
+    top: 5px; /* Adjust the position to ensure it doesn't overlap with modal content */
+    right: 5px; /* Adjust for consistency */
+    width: 35px; /* Slightly reduce size for better fit */
+    height: 35px; /* Maintain aspect ratio */
+    font-size: 20px; /* Adjust font size to match button size */
+  }
 }
