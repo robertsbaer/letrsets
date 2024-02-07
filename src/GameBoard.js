@@ -277,6 +277,23 @@ function GameBoard() {
     setAttempts((prevAttempts) => prevAttempts + 1);
   };
 
+  useEffect(() => {
+    // Check if all levels have been won
+    const allLevelsWon = [3, 4, 5, 6, 7, 8].every((length) =>
+      wonLevels.includes(length)
+    );
+  
+    if (allLevelsWon && selectedWords.length && !gameOver) {
+      // Set game over state to true and display congratulations message
+      setGameOver(true);
+      setMessage({
+        text: "Congratulations! Come back tomorrow for another round",
+        visible: true,
+      });
+    }
+  }, [wonLevels, selectedWords.length, gameOver]);
+  
+
   const giveHint = () => {
     // Filter for unguessed words of the selected length
     const unguessedWords = selectedWords.filter(
