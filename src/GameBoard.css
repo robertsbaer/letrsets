@@ -8,7 +8,7 @@
 
 .gameBoard {
     font-family: 'Arial, sans-serif';
-    /* padding: 20px; */
+    padding: 200px;
     max-width: 600px;
     margin: 0 auto;
     height: 100%; /* Add this line */
@@ -166,5 +166,15 @@
 @media (max-width: 768px) { /* adjust the value as needed */
     .mobile-spacing {
       margin-top: 40px; /* adjust the value as needed */
+      width: 90vw;
+    }
+    .gameBoard {
+        font-family: 'Arial, sans-serif';
+        padding: 20px;
+        max-width: 600px;
+        margin: 0 auto;
+        height: 100%; /* Add this line */
+        flex-direction: column; /* Add this line */
+        justify-content: space-between; /* Add this line */
     }
   }

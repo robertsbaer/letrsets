@@ -376,7 +376,8 @@ function GameBoard() {
               onClick={() => handleWordLengthSelection(length)}
               style={{
                 margin: "0 5px",
-                padding: "0px", // Uniform padding
+                fontSize: "14px",
+                padding: "10px", // Uniform padding
                 width: "40px", // Set a fixed width
                 height: "40px", // Set a fixed height to match the width, adjust as needed
                 borderRadius: "50%", // This will make it a perfect circle
@@ -389,6 +390,7 @@ function GameBoard() {
                 justifyContent: "center", // Center horizontally
                 alignItems: "center", // Center vertically
                 cursor: "pointer",
+                textDecoration: "none"
               }}
             >
               {length}
