@@ -1,0 +1,80 @@
+.NavBar {
+  display: flex;
+  position: relative;
+  margin: 0;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #282C34;
+  height: auto;
+  padding: 0 20px;
+}
+
+.instruction-button {
+  position: absolute;
+  top: 10;
+  right: 0;
+  margin-right: 10px;
+  font-size: 24px; /* Adjust the size of the question mark */
+  font-weight: bold; /* Make the question mark bold */
+  line-height: 40px; /* This helps center the text vertically */
+  width: 40px; /* Circle width */
+  height: 40px; /* Circle height, ensure it's the same as width for a perfect circle */
+  border-radius: 50%; /* Make the border a circle */
+  border: 2px solid #ffffff; /* Circle border color */
+  text-align: center; /* Center the question mark horizontally */
+  display: inline-flex; /* Use inline-flex for better centering */
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
+  cursor: pointer;
+  background-color: rgb(28, 48, 73);
+  color: #ffffff; /* Color of the question mark */
+  padding: 0; /* Adjust or remove padding */
+  box-sizing: border-box; /* Include padding and border in the element's total dimensions */
+}
+
+.emphasize {
+  font-weight: bold; /* Makes the text bold */
+  color: #ff0000; /* Changes the color to red */
+  font-weight: bolder;
+}
+
+
+.game-title {
+  color: white;
+  font-family: 'Arial', sans-serif;
+  font-size: 24px;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(28, 48, 73);
+  padding: 20px;
+  z-index: 1000;
+  color: white;
+  text-align: left;
+  border: 10px solid #ff8c00;
+  border-radius: 10px;
+}
+
+@media (max-width: 600px) {
+  .NavBar {
+    height: auto;
+  }
+  .modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(28, 48, 73);
+    padding: 20px;
+    z-index: 1000;
+    width: 70vw;
+    border: 10px solid #ff8c00;
+    border-radius: 10px;
+    font-size: 15px;
+  }
+  
+}

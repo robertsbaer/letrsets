@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./GameBoard.css";
 import wordsList from "./words.json";
+import wordsForFebruary2024 from "./words_for_February_2024.json";
 
 function GameBoard() {
   const [userInput, setUserInput] = useState("");
@@ -43,12 +44,11 @@ function GameBoard() {
     // Clear localStorage after 5 minutes
     const now = new Date();
     const next12am = new Date(now);
-    next12am.setHours(24, 0, 0, 0); // Set the time to 1pm today
+    next12am.setHours(24, 0, 0, 0);
     if (now > next12am) {
-      // If it's already past 1pm, schedule for 1pm tomorrow
       next12am.setDate(next12am.getDate() + 1);
     }
-    const timeUntil1pm = next12am - now;
+    const timeUntil12am = next12am - now;
 
     // Clear localStorage at the next 1pm, and every 24 hours thereafter
     const timeoutId = setTimeout(() => {
@@ -56,7 +56,7 @@ function GameBoard() {
       setInterval(() => {
         localStorage.clear();
       }, 24 * 60 * 60 * 1000); // 24 hours in milliseconds
-    }, timeUntil1pm);
+    }, timeUntil12am);
 
     // Clear the timeout when the component is unmounted
     return () => clearTimeout(timeoutId);
@@ -101,14 +101,46 @@ function GameBoard() {
   ]);
 
   const initializeGame = () => {
+    // Get today's date and format it to match the keys in the JSON file
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0"); // JS months are 0-indexed
+    const day = String(today.getDate()).padStart(2, "0");
+    const todayKey = `${year}-${month}-${day}`;
+
+    // Get the words for today from the JSON file
+    const wordsForToday = wordsForFebruary2024[todayKey];
+
+    // If there are no words for today, you might want to handle this case differently
+    if (!wordsForToday) {
+      console.error(`No words found for today's date (${todayKey})`);
+      return;
+    }
+
+    // Map the words for today into the format expected by the rest of the code
     const wordsByLength = [3, 4, 5, 6, 7, 8].map((length) => {
-      const wordsOfLength = wordsList.filter((word) => word.length === length);
-      return wordsOfLength[Math.floor(Math.random() * wordsOfLength.length)];
+      const key = `${length}_letter_words`;
+      return wordsForToday[key][0]; // Assuming there's always at least one word of each length
     });
 
     setSelectedWords(wordsByLength);
     let allSets = wordsByLength.flatMap((word) => extractLetterSets(word));
     allSets = Array.from(new Set(allSets)); // Remove duplicates
+
+    // Ensure there are always 20 unique sets of letters
+    while (allSets.length < 20) {
+      const randomWord =
+        wordsList[Math.floor(Math.random() * wordsList.length)];
+      const newSets = extractLetterSets(randomWord);
+      for (const set of newSets) {
+        if (!allSets.includes(set)) {
+          allSets.push(set);
+          if (allSets.length === 20) {
+            break;
+          }
+        }
+      }
+    }
     allSets = shuffleArray(allSets);
     setLetterSets(allSets);
     setIsInitialized(true);
@@ -131,12 +163,13 @@ function GameBoard() {
   };
 
   const isWordValid = (inputWord) => {
-    return (
-      wordsList.includes(inputWord.toLowerCase()) &&
-      selectedWords.some(
-        (word) => word.toLowerCase() === inputWord.toLowerCase()
-      )
+    // Get the current word
+    const currentWord = selectedWords.find(
+      (word) => word.length === selectedWordLength
     );
+
+    // Check if the input word matches the current word
+    return inputWord.toLowerCase() === currentWord.toLowerCase();
   };
 
   const handleSubmit = (event) => {
@@ -154,6 +187,10 @@ function GameBoard() {
         text: "Please select the level you are trying to solve!",
         visible: true,
       });
+      setTimeout(() => {
+        setMessage({ text: "", visible: false });
+      }, 5000); // 5000 milliseconds = 10 seconds
+
       return;
     }
 
@@ -195,6 +232,11 @@ function GameBoard() {
         setGuessedWords(newGuessedWords);
         setMessage({ text: "Correct!", visible: true });
 
+        // Hide the message after 10 seconds
+        setTimeout(() => {
+          setMessage({ text: "", visible: false });
+        }, 5000); // 5000 milliseconds = 10 seconds
+
         if (!wonLevels.includes(wordLength)) {
           setWonLevels([...wonLevels, wordLength]);
         }
@@ -214,12 +256,22 @@ function GameBoard() {
           text: "You've already guessed this word!",
           visible: true,
         });
+
+        // Hide the message after 10 seconds
+        setTimeout(() => {
+          setMessage({ text: "", visible: false });
+        }, 5000); // 5000 milliseconds = 10 seconds
       }
     } else {
       setMessage({
         text: "Invalid word or not matching the letter sets!",
         visible: true,
       });
+
+      // Hide the message after 10 seconds
+      setTimeout(() => {
+        setMessage({ text: "", visible: false });
+      }, 5000); // 5000 milliseconds = 10 seconds
     }
     setUserInput("");
     setAttempts((prevAttempts) => prevAttempts + 1);
@@ -237,10 +289,13 @@ function GameBoard() {
     if (unguessedWords.length > 0) {
       // Cycle through the unguessed words
       const hintWord = unguessedWords[hintIndex % unguessedWords.length];
-      const hintMessage = `Hint: One of the words starts with "${hintWord[0].toUpperCase()}" and is ${
-        hintWord.length
-      } letters long.`;
+      const hintMessage = `Hint: The word starts with "${hintWord[0].toUpperCase()}"`;
       setMessage({ text: hintMessage, visible: true });
+
+      // Hide the hint message after 10 seconds
+      setTimeout(() => {
+        setMessage({ text: "", visible: false });
+      }, 5000); // 5000 milliseconds = 10 seconds
 
       // Move to the next word for the next hint
       setHintIndex((prevHintIndex) => prevHintIndex + 1);
@@ -251,6 +306,9 @@ function GameBoard() {
       }
     } else {
       setMessage({ text: "Select a word length!", visible: true });
+      setTimeout(() => {
+        setMessage({ text: "", visible: false });
+      }, 5000); // 5000 milliseconds = 10 seconds
     }
   };
 
@@ -311,20 +369,25 @@ function GameBoard() {
     <div className="gameBoardContainer">
       {showWordCheck && <Modal />}
       <div className="gameBoard">
-        <div className="wordLengthSelection">
+      <div className="wordLengthSelection mobile-spacing">
           {[3, 4, 5, 6, 7, 8].map((length) => (
             <button
               key={length}
               onClick={() => handleWordLengthSelection(length)}
               style={{
                 margin: "0 5px",
-                padding: "15px 30px",
+                padding: "0px", // Uniform padding
+                width: "40px", // Set a fixed width
+                height: "40px", // Set a fixed height to match the width, adjust as needed
+                borderRadius: "50%", // This will make it a perfect circle
                 background: wonLevels.includes(length)
-                  ? "green"
+                  ? "#28a745"
                   : selectedWordLength === length
                   ? "#ccc"
                   : "#fff",
                 border: "1px solid #000",
+                justifyContent: "center", // Center horizontally
+                alignItems: "center", // Center vertically
                 cursor: "pointer",
               }}
             >
@@ -357,27 +420,18 @@ function GameBoard() {
             type="text"
             value={userInput}
             onChange={(event) => setUserInput(event.target.value.toUpperCase())}
-            placeholder="Enter a word"
+            placeholder="Your word"
             className="inputStyle"
           />
-          <button type="submit" className="submitButton" disabled={gameOver}>
-            Submit
-          </button>
+          <div class="buttonContainer">
+            <button type="button" onClick={giveHint} className="hintButton">
+              Hint
+            </button>
+            <button type="submit" className="submitButton" disabled={gameOver}>
+              Submit
+            </button>
+          </div>
         </form>
-        <div className="guessedWordsStyle">
-          Word hint:
-          {guessedWords.map((wordObj, index) => (
-            <span key={index} style={{ marginLeft: "10px" }}>
-              {wordObj.word.toUpperCase()} ({wordObj.length} letters)
-            </span>
-          ))}
-        </div>
-        {/* <button onClick={() => setShowWordCheck(true)} className="hintButton">
-          Check Words to Find
-        </button> */}
-        <button onClick={giveHint} className="hintButton">
-          Give Me a Hint
-        </button>
       </div>
     </div>
   );

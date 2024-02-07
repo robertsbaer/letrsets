@@ -1,21 +1,26 @@
 .gameBoardContainer {
     display: flex;
-    flex-direction: row;
+    flex-direction: column; /* Change this from row to column */
+    max-height: --webkit-fill-available;
+    justify-content: space-between; /* Add this line */
+    overflow: hidden;
 }
 
 .gameBoard {
     font-family: 'Arial, sans-serif';
-    padding: 20px;
+    /* padding: 20px; */
     max-width: 600px;
     margin: 0 auto;
-  }
+    height: 100%; /* Add this line */
+    flex-direction: column; /* Add this line */
+    justify-content: space-between; /* Add this line */
+}
   
-.letterSetContainer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    max-width: 500px;
-    margin: 20px auto;
+  .letterSetContainer {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 10px; /* adjust as needed */
   }
   
 .letterSet {
@@ -40,21 +45,30 @@
     border-radius: 5px;
     border: 1px solid #ccc;
     width: calc(100% - 22px);
+    font-size: 16px;
   }
 
-.hintButton {
-    width: 33%;
-    height: 70px;
-  }
-  
-.submitButton {
+  .buttonContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.submitButton, .hintButton {
+    width: 40%; /* Change width to 40% */
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    background-color: #28a745;
     color: white;
     cursor: pointer;
-  }
+}
+
+.submitButton {
+    background-color: #28a745;
+}
+
+.hintButton {
+    background-color: #007bff; /* Change color if you want the hint button to look different */
+}
   
 .guessedWordsStyle {
     margin-top: 20px;
@@ -78,7 +92,7 @@
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     z-index: 1000; /* Ensure it's above other content */
-    /* animation: fadeOut 5s forwards; Optional: add fade-out effect */
+    /* animation: fadeOut 5s forwards; */
   }
   
   @keyframes fadeOut {
@@ -140,4 +154,17 @@
   
   .letterSet.incorrect {
     background-color: red;
+  }
+
+  .hidden {
+    display: none;
+}
+  .wordLengthSelection {
+    padding-bottom: 20px;
+}
+
+@media (max-width: 768px) { /* adjust the value as needed */
+    .mobile-spacing {
+      margin-top: 40px; /* adjust the value as needed */
+    }
   }
