@@ -122,18 +122,16 @@
     padding: 10px;
   }
 
-.messageContainer {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #f8d7da;
-    color: #721c24;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000; /* Ensure it's above other content */
-    /* animation: fadeOut 5s forwards; */
+  .messageContainer {
+    font-size: 24px; /* Adjust the font size */
+    position: fixed; /* Make the position fixed */
+    top: 10%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust for the element's own width and height */
+    background-color: #f8f9fa; /* Add a background color for visibility */
+    padding: 20px; /* Add some padding */
+    border-radius: 10px; /* Optional: add some border radius for aesthetics */
+    z-index: 1000; /* Optional: ensure the message is above other elements */
   }
   
   @keyframes fadeOut {

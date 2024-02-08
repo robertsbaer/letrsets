@@ -20,7 +20,6 @@ function GameBoard({ setPoints: setPointsProp }) {
   const [isInitialized, setIsInitialized] = useState(false);
   const [points, setPoints] = useState(0); // Add this line to manage points
 
-
   useEffect(() => {
     const savedState = localStorage.getItem("gameState");
     const savedPoints = localStorage.getItem("points"); // Load points
@@ -90,7 +89,6 @@ function GameBoard({ setPoints: setPointsProp }) {
         usedSets,
       };
       localStorage.setItem("gameState", JSON.stringify(gameState));
-      localStorage.setItem("points", points.toString());
     }
   }, [
     userInput,
@@ -107,13 +105,22 @@ function GameBoard({ setPoints: setPointsProp }) {
     hintIndex,
     usedSets,
     isInitialized,
-    points,
   ]);
 
   const updatePoints = (additionalPoints) => {
     setPointsProp((prevPoints) => prevPoints + additionalPoints);
   };
-  
+
+  useEffect(() => {
+    // Daily reset logic - adjust as per your application's logic
+    const currentTime = new Date();
+    const resetTime = new Date(); // Set this to your desired reset time
+    if (currentTime > resetTime) {
+      const keysToRemove = ["gameState", "userInput", "guessedWords"]; // Example keys
+      keysToRemove.forEach((key) => localStorage.removeItem(key));
+      // Optionally, reset other parts of the state as needed, but preserve points
+    }
+  }, []);
 
   const initializeGame = () => {
     // Get today's date and format it to match the keys in the JSON file
@@ -311,6 +318,9 @@ function GameBoard({ setPoints: setPointsProp }) {
         text: "Congratulations! Come back tomorrow for another round",
         visible: true,
       });
+      setTimeout(() => {
+        setMessage({ text: "", visible: false });
+      }, 5000); // 5000 milliseconds = 10 seconds
     }
   }, [wonLevels, selectedWords.length, gameOver]);
 
@@ -409,31 +419,31 @@ function GameBoard({ setPoints: setPointsProp }) {
         <div className="wordLengthSelection mobile-spacing">
           {[3, 4, 5, 6, 7, 8].map((length) => (
             <button
-            key={length}
-            onClick={() => handleWordLengthSelection(length)}
-            style={{
-              margin: "0 5px",
-              fontSize: "14px",
-              padding: "10px", // Uniform padding
-              width: "40px", // Set a fixed width
-              height: "40px", // Set a fixed height to match the width, adjust as needed
-              borderRadius: "50%", // This will make it a perfect circle
-              background: wonLevels.includes(length)
-                ? "#28a745"
-                : selectedWordLength === length
-                ? "#ccc"
-                : "#fff",
-              border: "1px solid #000",
-              justifyContent: "center", // Center horizontally
-              alignItems: "center", // Center vertically
-              cursor: "pointer",
-              textDecoration: "none",
-              color: "#000", // Set the color to black
-              outline: "none" // Remove the outline
-            }}
-          >
-            {length}
-          </button>
+              key={length}
+              onClick={() => handleWordLengthSelection(length)}
+              style={{
+                margin: "0 5px",
+                fontSize: "14px",
+                padding: "10px", // Uniform padding
+                width: "40px", // Set a fixed width
+                height: "40px", // Set a fixed height to match the width, adjust as needed
+                borderRadius: "50%", // This will make it a perfect circle
+                background: wonLevels.includes(length)
+                  ? "#28a745"
+                  : selectedWordLength === length
+                  ? "#ccc"
+                  : "#fff",
+                border: "1px solid #000",
+                justifyContent: "center", // Center horizontally
+                alignItems: "center", // Center vertically
+                cursor: "pointer",
+                textDecoration: "none",
+                color: "#000", // Set the color to black
+                outline: "none", // Remove the outline
+              }}
+            >
+              {length}
+            </button>
           ))}
         </div>
         {message.visible && (
@@ -477,10 +487,18 @@ function GameBoard({ setPoints: setPointsProp }) {
             </button>
           </div>
           <div className="buttonContainer">
-            <button type="button" onClick={giveHint} class="buttonCommon hintButton">
+            <button
+              type="button"
+              onClick={giveHint}
+              class="buttonCommon hintButton"
+            >
               Hint
             </button>
-            <button type="submit" class="buttonCommon submitButton" disabled={gameOver}>
+            <button
+              type="submit"
+              class="buttonCommon submitButton"
+              disabled={gameOver}
+            >
               Submit
             </button>
           </div>
