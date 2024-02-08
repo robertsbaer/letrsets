@@ -431,7 +431,7 @@ function GameBoard({ setPoints: setPointsProp }) {
                 background: wonLevels.includes(length)
                   ? "#28a745"
                   : selectedWordLength === length
-                  ? "#FF5733"
+                  ? "#ff8c00"
                   : "#fff",
                 border: "1px solid #000",
                 justifyContent: "center", // Center horizontally
