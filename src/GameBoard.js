@@ -208,8 +208,13 @@ function GameBoard() {
           newLetterSetStatus[set] = "correct";
           setUsedSets((prevUsedSets) => ({ ...prevUsedSets, [set]: true }));
         } else if (!usedSets[set]) {
-          // Otherwise, mark it as incorrect
-          newLetterSetStatus[set] = "incorrect";
+          // Check if the set exists in the current word at any position
+          if (currentWord.toUpperCase().includes(set)) {
+            newLetterSetStatus[set] = "correct";
+          } else {
+            // Otherwise, mark it as incorrect
+            newLetterSetStatus[set] = "incorrect";
+          }
         }
       }
     } else {
