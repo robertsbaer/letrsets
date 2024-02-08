@@ -1,9 +1,10 @@
 .gameBoardContainer {
-    display: flex;
-    flex-direction: column; /* Change this from row to column */
-    max-height: --webkit-fill-available;
-    justify-content: space-between; /* Add this line */
-    overflow: hidden;
+  display: flex;
+  flex-direction: column; /* Stays the same, ensures vertical stacking of children */
+  max-height: 100vh; /* Ensures the container takes the full viewport height */
+  justify-content: center; /* Centers content vertically in the container */
+  align-items: center; /* Centers content horizontally */
+  overflow: hidden;
 }
 
 .gameBoard {
@@ -14,6 +15,7 @@
     height: 100%; /* Add this line */
     flex-direction: column; /* Add this line */
     justify-content: space-between; /* Add this line */
+    align-items: center;
 }
   
   .letterSetContainer {
@@ -198,14 +200,20 @@
   .hidden {
     display: none;
 }
-  .wordLengthSelection {
-    padding-bottom: 20px;
+.wordLengthSelection {
+  display: flex; /* Enables flexbox */
+  justify-content: center; /* Centers children (buttons) horizontally */
+  align-items: center; /* Centers children vertically (if needed) */
+  flex-wrap: wrap; /* Allows buttons to wrap in smaller screens */
+  padding-bottom: 20px; /* Keeps existing spacing */
+  width: 100%; /* Ensures it spans the full width of its container */
+  margin: 0 auto; /* Centers the element within its parent */
 }
 
 @media (max-width: 768px) { /* adjust the value as needed */
     .mobile-spacing {
-      margin-top: 40px; /* adjust the value as needed */
-      width: 90vw;
+      margin-top: 20px; /* adjust the value as needed */
+      width: auto;
     }
     .gameBoard {
         font-family: 'Arial, sans-serif';

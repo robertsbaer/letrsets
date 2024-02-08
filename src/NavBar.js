@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { GiPodiumWinner } from "react-icons/gi";
 import "./NavBar.css";
 
-function NavBar() {
+function NavBar({ points }) {
   const [showModal, setShowModal] = useState(false);
 
   const handleOpenModal = () => {
@@ -15,9 +16,14 @@ function NavBar() {
   return (
     <div className="NavBar">
       <h1 className="game-title">LetRSets</h1>
-      <button onClick={handleOpenModal} className="instruction-button">
-        ?
-      </button>
+      <div className="points-and-instructions">
+        <div className="points-box">
+          <div className="points">{points}<GiPodiumWinner size={24}/></div>
+        </div>
+        <button onClick={handleOpenModal} className="instruction-button">
+          ?
+        </button>
+      </div>
       {showModal && (
         <div className="modal">
           <button onClick={handleCloseModal} className="instruction-button">
@@ -54,5 +60,5 @@ function NavBar() {
     </div>
   );
 }
- 
+
 export default NavBar;

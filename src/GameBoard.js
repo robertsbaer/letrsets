@@ -3,7 +3,7 @@ import "./GameBoard.css";
 import wordsList from "./words.json";
 import wordsFor2024 from "./words_for_2024.json";
 
-function GameBoard() {
+function GameBoard({ setPoints: setPointsProp }) {
   const [userInput, setUserInput] = useState("");
   const [guessedWords, setGuessedWords] = useState([]);
   const [letterSets, setLetterSets] = useState([]);
@@ -18,9 +18,13 @@ function GameBoard() {
   const [hintIndex, setHintIndex] = useState(0);
   const [usedSets, setUsedSets] = useState({});
   const [isInitialized, setIsInitialized] = useState(false);
+  const [points, setPoints] = useState(0); // Add this line to manage points
+
 
   useEffect(() => {
     const savedState = localStorage.getItem("gameState");
+    const savedPoints = localStorage.getItem("points"); // Load points
+
     if (savedState) {
       const state = JSON.parse(savedState);
       setUserInput(state.userInput);
@@ -39,6 +43,10 @@ function GameBoard() {
       setIsInitialized(true); // Ensure we mark as initialized to prevent re-initialization
     } else {
       initializeGame();
+    }
+
+    if (savedPoints) {
+      setPoints(Number(savedPoints)); // Initialize points from localStorage
     }
 
     // Clear localStorage after 5 minutes
@@ -82,6 +90,7 @@ function GameBoard() {
         usedSets,
       };
       localStorage.setItem("gameState", JSON.stringify(gameState));
+      localStorage.setItem("points", points.toString());
     }
   }, [
     userInput,
@@ -98,7 +107,13 @@ function GameBoard() {
     hintIndex,
     usedSets,
     isInitialized,
+    points,
   ]);
+
+  const updatePoints = (additionalPoints) => {
+    setPointsProp((prevPoints) => prevPoints + additionalPoints);
+  };
+  
 
   const initializeGame = () => {
     // Get today's date and format it to match the keys in the JSON file
@@ -236,6 +251,7 @@ function GameBoard() {
         ];
         setGuessedWords(newGuessedWords);
         setMessage({ text: "Correct!", visible: true });
+        updatePoints(1);
 
         // Hide the message after 10 seconds
         setTimeout(() => {
