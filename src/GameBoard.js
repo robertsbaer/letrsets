@@ -393,29 +393,31 @@ function GameBoard() {
         <div className="wordLengthSelection mobile-spacing">
           {[3, 4, 5, 6, 7, 8].map((length) => (
             <button
-              key={length}
-              onClick={() => handleWordLengthSelection(length)}
-              style={{
-                margin: "0 5px",
-                fontSize: "14px",
-                padding: "10px", // Uniform padding
-                width: "40px", // Set a fixed width
-                height: "40px", // Set a fixed height to match the width, adjust as needed
-                borderRadius: "50%", // This will make it a perfect circle
-                background: wonLevels.includes(length)
-                  ? "#28a745"
-                  : selectedWordLength === length
-                  ? "#ccc"
-                  : "#fff",
-                border: "1px solid #000",
-                justifyContent: "center", // Center horizontally
-                alignItems: "center", // Center vertically
-                cursor: "pointer",
-                textDecoration: "none",
-              }}
-            >
-              {length}
-            </button>
+            key={length}
+            onClick={() => handleWordLengthSelection(length)}
+            style={{
+              margin: "0 5px",
+              fontSize: "14px",
+              padding: "10px", // Uniform padding
+              width: "40px", // Set a fixed width
+              height: "40px", // Set a fixed height to match the width, adjust as needed
+              borderRadius: "50%", // This will make it a perfect circle
+              background: wonLevels.includes(length)
+                ? "#28a745"
+                : selectedWordLength === length
+                ? "#ccc"
+                : "#fff",
+              border: "1px solid #000",
+              justifyContent: "center", // Center horizontally
+              alignItems: "center", // Center vertically
+              cursor: "pointer",
+              textDecoration: "none",
+              color: "#000", // Set the color to black
+              outline: "none" // Remove the outline
+            }}
+          >
+            {length}
+          </button>
           ))}
         </div>
         {message.visible && (
@@ -459,10 +461,10 @@ function GameBoard() {
             </button>
           </div>
           <div className="buttonContainer">
-            <button type="button" onClick={giveHint} className="hintButton">
+            <button type="button" onClick={giveHint} class="buttonCommon hintButton">
               Hint
             </button>
-            <button type="submit" className="submitButton" disabled={gameOver}>
+            <button type="submit" class="buttonCommon submitButton" disabled={gameOver}>
               Submit
             </button>
           </div>

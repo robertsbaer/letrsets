@@ -90,21 +90,23 @@
     justify-content: space-between;
 }
 
-.submitButton, .hintButton {
-    width: 40%; /* Change width to 40% */
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
+.buttonCommon {
+  width: 40%; /* Change width to 40% */
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold; /* Add this line to make the font bold */
 }
 
 .submitButton {
-    background-color: #28a745;
+  background-color: #28a745;
 }
 
 .hintButton {
-    background-color: #007bff; /* Change color if you want the hint button to look different */
+  background-color: #007bff; /* Change color if you want the hint button to look different */
 }
   
 .guessedWordsStyle {
