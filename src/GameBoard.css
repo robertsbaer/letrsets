@@ -22,7 +22,7 @@
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(4, 1fr);
-    gap: 10px; /* adjust as needed */
+    /* gap: 10px; adjust as needed */
   }
   
 .letterSet {
@@ -93,7 +93,7 @@
 }
 
 .buttonCommon {
-  width: 40%; /* Change width to 40% */
+  width: 49%; /* Change width to 40% */
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
