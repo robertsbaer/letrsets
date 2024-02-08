@@ -282,7 +282,7 @@ function GameBoard() {
     const allLevelsWon = [3, 4, 5, 6, 7, 8].every((length) =>
       wonLevels.includes(length)
     );
-  
+
     if (allLevelsWon && selectedWords.length && !gameOver) {
       // Set game over state to true and display congratulations message
       setGameOver(true);
@@ -292,7 +292,6 @@ function GameBoard() {
       });
     }
   }, [wonLevels, selectedWords.length, gameOver]);
-  
 
   const giveHint = () => {
     // Filter for unguessed words of the selected length
@@ -386,7 +385,7 @@ function GameBoard() {
     <div className="gameBoardContainer">
       {showWordCheck && <Modal />}
       <div className="gameBoard">
-      <div className="wordLengthSelection mobile-spacing">
+        <div className="wordLengthSelection mobile-spacing">
           {[3, 4, 5, 6, 7, 8].map((length) => (
             <button
               key={length}
@@ -407,7 +406,7 @@ function GameBoard() {
                 justifyContent: "center", // Center horizontally
                 alignItems: "center", // Center vertically
                 cursor: "pointer",
-                textDecoration: "none"
+                textDecoration: "none",
               }}
             >
               {length}
@@ -435,14 +434,26 @@ function GameBoard() {
           ))}
         </div>
         <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            value={userInput}
-            onChange={(event) => setUserInput(event.target.value.toUpperCase())}
-            placeholder="Your word"
-            className="inputStyle"
-          />
-          <div class="buttonContainer">
+          <div className="inputContainer">
+            <input
+              type="text"
+              value={userInput}
+              onChange={(event) =>
+                setUserInput(event.target.value.toUpperCase())
+              }
+              placeholder="Your word"
+              className="inputStyle"
+            />
+            {/* Clear button right next to the input field */}
+            <button
+              type="button" // Ensure this button does not submit the form
+              onClick={() => setUserInput("")} // Clear the userInput state
+              className="clearButton"
+            >
+              Clear
+            </button>
+          </div>
+          <div className="buttonContainer">
             <button type="button" onClick={giveHint} className="hintButton">
               Hint
             </button>

@@ -47,6 +47,43 @@
     width: calc(100% - 22px);
     font-size: 16px;
   }
+  .inputContainer {
+    display: flex;
+    position: relative; /* Allows absolute positioning inside */
+  }
+  
+  .inputStyle {
+    flex-grow: 1; /* Takes up the majority of the space */
+    /* Additional styling here */
+  }
+  
+  .clearButton {
+    position: absolute;
+    right: 5px; /* Adjust based on your design */
+    top: 50%;
+    font-size: 19px;
+    transform: translateY(-50%); /* Center vertically */
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    background-color: rgb(226, 226, 226);
+    padding: 7px;
+    border-radius: 10px;
+    /* Adding shadow */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Horizontal offset, vertical offset, blur radius, color */
+    color: black; /* Default text color */
+  }
+  
+  /* Ensuring text color doesn't change upon interaction */
+  .clearButton:hover,
+  .clearButton:active,
+  .clearButton:focus,
+  .clearButton:visited {
+    color: black; /* Maintains text color consistency */
+    text-decoration: none; /* Optional: Removes underline from links */
+  }
+  
+  
 
   .buttonContainer {
     display: flex;
