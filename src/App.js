@@ -4,7 +4,6 @@ import NavBar from './NavBar';
 
 function App() {
   const [points, setPoints] = useState(() => {
-    // Retrieve points from local storage or set to 0 if not found
     const savedPoints = localStorage.getItem('points');
     return savedPoints ? parseInt(savedPoints, 10) : 0;
   });
