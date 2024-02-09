@@ -3,7 +3,7 @@ import "./GameBoard.css";
 import wordsList from "./words.json";
 import wordsFor2024 from "./words_for_2024.json";
 
-function GameBoard({ setPoints: setPointsProp }) {
+function GameBoard() {
   const [userInput, setUserInput] = useState("");
   const [guessedWords, setGuessedWords] = useState([]);
   const [letterSets, setLetterSets] = useState([]);
@@ -18,11 +18,9 @@ function GameBoard({ setPoints: setPointsProp }) {
   const [hintIndex, setHintIndex] = useState(0);
   const [usedSets, setUsedSets] = useState({});
   const [isInitialized, setIsInitialized] = useState(false);
-  const [points, setPoints] = useState(0); // Add this line to manage points
 
   useEffect(() => {
     const savedState = localStorage.getItem("gameState");
-    const savedPoints = localStorage.getItem("points"); // Load points
 
     if (savedState) {
       const state = JSON.parse(savedState);
@@ -43,35 +41,9 @@ function GameBoard({ setPoints: setPointsProp }) {
     } else {
       initializeGame();
     }
-
-    if (savedPoints) {
-      setPoints(Number(savedPoints)); // Initialize points from localStorage
-    }
-
-    // Clear localStorage after 5 minutes
-    const now = new Date();
-    const next12am = new Date(now);
-    next12am.setHours(24, 0, 0, 0);
-    if (now > next12am) {
-      next12am.setDate(next12am.getDate() + 1);
-    }
-    const timeUntil12am = next12am - now;
-
-    // Clear localStorage at the next 1pm, and every 24 hours thereafter
-    const timeoutId = setTimeout(() => {
-      localStorage.clear();
-      setInterval(() => {
-        localStorage.clear();
-      }, 24 * 60 * 60 * 1000); // 24 hours in milliseconds
-    }, timeUntil12am);
-
-    // Clear the timeout when the component is unmounted
-    return () => clearTimeout(timeoutId);
   }, []);
 
-  // Save state to localStorage whenever it changes
   useEffect(() => {
-    // Only save the state if the game has been initialized to prevent overwriting saved state with initial values on first load
     if (isInitialized) {
       const gameState = {
         userInput,
@@ -90,36 +62,24 @@ function GameBoard({ setPoints: setPointsProp }) {
       };
       localStorage.setItem("gameState", JSON.stringify(gameState));
     }
-  }, [
-    userInput,
-    guessedWords,
-    letterSets,
-    selectedWords,
-    attempts,
-    gameOver,
-    message,
-    showWordCheck,
-    letterSetStatus,
-    selectedWordLength,
-    wonLevels,
-    hintIndex,
-    usedSets,
-    isInitialized,
-  ]);
-
-  const updatePoints = (additionalPoints) => {
-    setPointsProp((prevPoints) => prevPoints + additionalPoints);
-  };
+  }, [userInput, guessedWords, letterSets, selectedWords, attempts, gameOver, message, showWordCheck, letterSetStatus, selectedWordLength, wonLevels, hintIndex, usedSets, isInitialized]);
 
   useEffect(() => {
-    // Daily reset logic - adjust as per your application's logic
-    const currentTime = new Date();
-    const resetTime = new Date(); // Set this to your desired reset time
-    if (currentTime > resetTime) {
-      const keysToRemove = ["gameState", "userInput", "guessedWords"]; // Example keys
-      keysToRemove.forEach((key) => localStorage.removeItem(key));
-      // Optionally, reset other parts of the state as needed, but preserve points
-    }
+    // Active checking for reset time
+    const checkResetTime = () => {
+      const now = new Date();
+      const todayMidnight = new Date(now).setHours(24, 0, 0, 0);
+      const currentTime = now.getTime();
+
+      if (currentTime >= todayMidnight) {
+        localStorage.clear(); // Clear localStorage
+        initializeGame(); // Re-initialize the game
+      }
+    };
+
+    const intervalId = setInterval(checkResetTime, 60 * 1000); // Check every minute
+
+    return () => clearInterval(intervalId);
   }, []);
 
   const initializeGame = () => {
@@ -258,7 +218,6 @@ function GameBoard({ setPoints: setPointsProp }) {
         ];
         setGuessedWords(newGuessedWords);
         setMessage({ text: "Correct!", visible: true });
-        updatePoints(1);
 
         // Hide the message after 10 seconds
         setTimeout(() => {
