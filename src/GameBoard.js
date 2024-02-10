@@ -200,21 +200,31 @@ function GameBoard() {
     const currentWord = selectedWords.find(
       (word) => word.length === selectedWordLength
     );
-
+  
     // Check if the input word matches the current word
-    return inputWord.toLowerCase() === currentWord.toLowerCase();
+    return inputWord.toUpperCase() === currentWord.toUpperCase();
   };
+  
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const inputWord = userInput.toLowerCase();
+    let inputWord = userInput.toLowerCase();
+  
+    // Check if the length of the input word is 1, and if so, duplicate the letter
+    if (inputWord.length === 1) {
+      inputWord += inputWord; // Duplicate the letter
+    }
+  
     const newLetterSetStatus = { ...letterSetStatus };
-
+  
     // Get the current word
     const currentWord = selectedWords.find(
       (word) => word.length === selectedWordLength
     );
-
+  
+    // Extract letter sets from the current word
+    const currentLetterSets = extractLetterSets(currentWord);
+  
     if (selectedWordLength === null) {
       setMessage({
         text: "Please select the level you are trying to solve!",
@@ -223,43 +233,44 @@ function GameBoard() {
       setTimeout(() => {
         setMessage({ text: "", visible: false });
       }, 5000); // 5000 milliseconds = 10 seconds
-
+  
       return;
     }
-
+  
     // Check if the length of the input word matches the selected word length
     if (inputWord.length === selectedWordLength) {
+      // Extract letter sets from the input word
+      const inputLetterSets = extractLetterSets(inputWord);
+  
       // Check each letter set in the user's input
-      for (let i = 0; i < inputWord.length; i += 2) {
-        const set = inputWord.substring(i, i + 2).toUpperCase();
-
-        // If the letter set is part of the current word at the correct position and hasn't been used before, mark it as correct
+      inputLetterSets.forEach((set, index) => {
+        // If the letter set is part of the current word and hasn't been used before, mark it as correct
         if (
-          currentWord.toUpperCase().substring(i, i + 2) === set &&
-          !usedSets[set]
+          currentLetterSets.includes(set) &&
+          !usedSets[set] &&
+          currentLetterSets[index] === set
         ) {
-          newLetterSetStatus[set] = "correct";
+          newLetterSetStatus[set.toUpperCase()] = "correct";
           setUsedSets((prevUsedSets) => ({ ...prevUsedSets, [set]: true }));
         } else if (!usedSets[set]) {
-          // Check if the set exists in the current word at any position
-          if (currentWord.toUpperCase().includes(set)) {
-            newLetterSetStatus[set] = "correct";
-          } else {
-            // Otherwise, mark it as incorrect
-            newLetterSetStatus[set] = "incorrect";
-          }
+          // Otherwise, mark it as incorrect
+          newLetterSetStatus[set.toUpperCase()] = "incorrect";
         }
-      }
+      });
     } else {
       setMessage({
-        text: "Selected the level you're trying to solve!",
+        text:
+          "Please select the correct level or enter a word of the correct length.",
         visible: true,
       });
+      setTimeout(() => {
+        setMessage({ text: "", visible: false });
+      }, 5000); // 5000 milliseconds = 10 seconds
       return;
     }
-
+  
     setLetterSetStatus(newLetterSetStatus);
-
+  
     if (isWordValid(inputWord)) {
       const wordLength = inputWord.length;
       if (!guessedWords.some(({ word }) => word.toLowerCase() === inputWord)) {
@@ -269,16 +280,16 @@ function GameBoard() {
         ];
         setGuessedWords(newGuessedWords);
         setMessage({ text: "Correct!", visible: true });
-
+  
         // Hide the message after 10 seconds
         setTimeout(() => {
           setMessage({ text: "", visible: false });
         }, 5000); // 5000 milliseconds = 10 seconds
-
+  
         if (!wonLevels.includes(wordLength)) {
           setWonLevels([...wonLevels, wordLength]);
         }
-
+  
         if (newGuessedWords.length === selectedWords.length) {
           setMessage({
             text: "Congratulations! All words have been found.",
@@ -286,7 +297,7 @@ function GameBoard() {
           });
           setGameOver(true);
         }
-
+  
         // Reset letterSetStatus after a correct guess
         setLetterSetStatus({});
       } else {
@@ -294,7 +305,7 @@ function GameBoard() {
           text: "You've already guessed this word!",
           visible: true,
         });
-
+  
         // Hide the message after 10 seconds
         setTimeout(() => {
           setMessage({ text: "", visible: false });
@@ -302,10 +313,10 @@ function GameBoard() {
       }
     } else {
       setMessage({
-        text: "Invalid word or not matching the letter sets!",
+        text: "Try again!",
         visible: true,
       });
-
+  
       // Hide the message after 10 seconds
       setTimeout(() => {
         setMessage({ text: "", visible: false });
@@ -314,6 +325,7 @@ function GameBoard() {
     setUserInput("");
     setAttempts((prevAttempts) => prevAttempts + 1);
   };
+  
 
   useEffect(() => {
     // Check if all levels have been won
