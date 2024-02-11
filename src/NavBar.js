@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import "./NavBar.css";
+import ShareOptions from "./ShareOptions.js";
 
 function NavBar() {
   const [showModal, setShowModal] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
+
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -12,12 +15,23 @@ function NavBar() {
     setShowModal(false);
   };
 
+  const handleOpenShareModal = () => {
+    setShowShareModal(true);
+  };
+
+  const handleCloseShareModal = () => {
+    setShowShareModal(false);
+  };
+
   return (
     <div className="NavBar">
       <h1 className="game-title">LetRSets</h1>
       <div className="points-and-instructions">
         <button onClick={handleOpenModal} className="instruction-button">
           ?
+        </button>
+        <button onClick={handleOpenShareModal} className="share-button">
+          Share
         </button>
       </div>
       {showModal && (
@@ -51,6 +65,14 @@ function NavBar() {
               alt="Buy me a coffee button"
             />
           </a>
+        </div>
+      )}
+      {showShareModal && (
+        <div className="modal">
+          <button onClick={handleCloseShareModal} className="instruction-button">
+            X
+          </button>
+          <ShareOptions url="https://letrsets.com" />
         </div>
       )}
     </div>
