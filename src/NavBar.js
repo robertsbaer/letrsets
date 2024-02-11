@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { IoMdShare } from "react-icons/io";
 import "./NavBar.css";
 import ShareOptions from "./ShareOptions.js";
+
 
 function NavBar() {
   const [showModal, setShowModal] = useState(false);
@@ -27,11 +29,11 @@ function NavBar() {
     <div className="NavBar">
       <h1 className="game-title">LetRSets</h1>
       <div className="points-and-instructions">
+      <button onClick={handleOpenShareModal} className="instruction-button">
+        <IoMdShare />
+        </button>
         <button onClick={handleOpenModal} className="instruction-button">
           ?
-        </button>
-        <button onClick={handleOpenShareModal} className="share-button">
-          Share
         </button>
       </div>
       {showModal && (

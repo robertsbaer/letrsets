@@ -47,6 +47,7 @@
   color: #ffffff;
   padding: 0;
   box-sizing: border-box;
+  margin: 5px;
 }
 
 .emphasize {
@@ -143,6 +144,7 @@
 
   .instruction-button {
     top: 20px;
+    margin: 10px;
   }
 
   .modal {
