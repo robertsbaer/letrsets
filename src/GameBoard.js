@@ -208,123 +208,116 @@ function GameBoard() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    let inputWord = userInput.toLowerCase();
+    let inputWord = userInput.toUpperCase();
+    
+    // Reset error or success message
+    setMessage({ text: "", visible: false });
   
-    // Check if the length of the input word is 1, and if so, duplicate the letter
-    if (inputWord.length === 1) {
-      inputWord += inputWord; // Duplicate the letter
-    }
-  
-    const newLetterSetStatus = { ...letterSetStatus };
-  
-    // Get the current word
-    const currentWord = selectedWords.find(
-      (word) => word.length === selectedWordLength
-    );
-  
-    // Extract letter sets from the current word
-    const currentLetterSets = extractLetterSets(currentWord);
-  
-    if (selectedWordLength === null) {
-      setMessage({
-        text: "Please select the level you are trying to solve!",
-        visible: true,
-      });
-      setTimeout(() => {
-        setMessage({ text: "", visible: false });
-      }, 5000); // 5000 milliseconds = 10 seconds
-  
-      return;
-    }
-  
-    // Check if the length of the input word matches the selected word length
     if (inputWord.length === selectedWordLength) {
-      // Extract letter sets from the input word
-      const inputLetterSets = extractLetterSets(inputWord);
+      const newLetterSetStatus = { ...letterSetStatus };
+      const inputLetterSets = extractLetterSets(inputWord).map(set => set.toUpperCase());
   
-      // Check each letter set in the user's input
-      inputLetterSets.forEach((set, index) => {
-        // If the letter set is part of the current word and hasn't been used before, mark it as correct
-        if (
-          currentLetterSets.includes(set) &&
-          !usedSets[set] &&
-          currentLetterSets[index] === set
-        ) {
-          newLetterSetStatus[set.toUpperCase()] = "correct";
+      // Get current letter sets of the selected word
+      const currentWord = selectedWords.find(
+        (word) => word.length === selectedWordLength
+      ).toUpperCase();
+      const currentLetterSets = extractLetterSets(currentWord);
+  
+      // Mark each letter set as correct or incorrect
+      inputLetterSets.forEach((set) => {
+        if (currentLetterSets.includes(set) && !usedSets[set]) {
+          newLetterSetStatus[set] = "correct";
           setUsedSets((prevUsedSets) => ({ ...prevUsedSets, [set]: true }));
-        } else if (!usedSets[set]) {
-          // Otherwise, mark it as incorrect
-          newLetterSetStatus[set.toUpperCase()] = "incorrect";
+        } else {
+          // Mark as incorrect only if not previously used or not correct
+          if (!newLetterSetStatus[set]) {
+            newLetterSetStatus[set] = "incorrect";
+          }
         }
       });
-    } else {
-      setMessage({
-        text:
-          "Please select the correct level or enter a word of the correct length.",
-        visible: true,
-      });
-      setTimeout(() => {
-        setMessage({ text: "", visible: false });
-      }, 5000); // 5000 milliseconds = 10 seconds
-      return;
-    }
   
-    setLetterSetStatus(newLetterSetStatus);
+      setLetterSetStatus(newLetterSetStatus);
   
-    if (isWordValid(inputWord)) {
-      const wordLength = inputWord.length;
-      if (!guessedWords.some(({ word }) => word.toLowerCase() === inputWord)) {
-        const newGuessedWords = [
-          ...guessedWords,
-          { word: inputWord, length: wordLength },
-        ];
-        setGuessedWords(newGuessedWords);
-        setMessage({ text: "Correct!", visible: true });
-  
-        // Hide the message after 10 seconds
-        setTimeout(() => {
-          setMessage({ text: "", visible: false });
-        }, 5000); // 5000 milliseconds = 10 seconds
-  
-        if (!wonLevels.includes(wordLength)) {
-          setWonLevels([...wonLevels, wordLength]);
-        }
-  
-        if (newGuessedWords.length === selectedWords.length) {
-          setMessage({
-            text: "Congratulations! All words have been found.",
-            visible: true,
-          });
-          setGameOver(true);
-        }
-  
-        // Reset letterSetStatus after a correct guess
-        setLetterSetStatus({});
+      // Check if the entered word is correct
+      if (isWordValid(inputWord)) {
+        // Update state of guessed words and the game overall
+        handleCorrectGuess(inputWord);
       } else {
+        // Show incorrect attempt message
         setMessage({
-          text: "You've already guessed this word!",
+          text: "Incorrect attempt, try again!",
           visible: true,
         });
-  
-        // Hide the message after 10 seconds
-        setTimeout(() => {
-          setMessage({ text: "", visible: false });
-        }, 5000); // 5000 milliseconds = 10 seconds
       }
     } else {
+      // Show message if word length does not match
       setMessage({
-        text: "Try again!",
+        text: "The length of the entered word does not match the selected one.",
         visible: true,
       });
-  
-      // Hide the message after 10 seconds
-      setTimeout(() => {
-        setMessage({ text: "", visible: false });
-      }, 5000); // 5000 milliseconds = 10 seconds
     }
+  
+    // Clear user input for the next attempt
     setUserInput("");
     setAttempts((prevAttempts) => prevAttempts + 1);
   };
+  
+
+  const handleCorrectGuess = (inputWord) => {
+    const wordLength = inputWord.length;
+    if (!guessedWords.some(({ word }) => word.toLowerCase() === inputWord.toLowerCase())) {
+      const newGuessedWords = [
+        ...guessedWords,
+        { word: inputWord, length: wordLength },
+      ];
+      setGuessedWords(newGuessedWords);
+      setMessage({ text: "Correct!", visible: true });
+  
+      // Add to won levels if not already included
+      if (!wonLevels.includes(wordLength)) {
+        setWonLevels([...wonLevels, wordLength]);
+      }
+  
+      // Check if all words have been guessed
+      checkGameCompletion(newGuessedWords);
+    } else {
+      setMessage({
+        text: "You have already guessed this word.",
+        visible: true,
+      });
+    }
+  };
+  
+
+  const checkGameCompletion = (newGuessedWords) => {
+    if (newGuessedWords.length === selectedWords.length) {
+      setMessage({
+        text: "Congratulations! You have found all the words.",
+        visible: true,
+      });
+      setGameOver(true);
+    }
+  };
+  
+
+const handleLetterSetClick = (set) => {
+  if (set.length === 1 && userInput.length === 0) {
+    // If the set has a single letter and it is the user's first selection
+    setMessage({
+      text: "Individual letters are at the end of the word.",
+      visible: true,
+    });
+    // Optionally, you can decide if you want to clear this message after some time
+    setTimeout(() => {
+      setMessage({ text: "", visible: false });
+    }, 5000); // Clear the message after 5 seconds
+  } else {
+    // If it's not a single letter at the beginning, proceed as normal
+    setUserInput((prevInput) => prevInput + set);
+    // Make sure to clear any previous message that might have been visible
+    setMessage({ text: "", visible: false });
+  }
+};
   
 
   useEffect(() => {
@@ -473,22 +466,22 @@ function GameBoard() {
           <div className="messageContainer">{message.text}</div>
         )}
         <div className="letterSetContainer">
-          {letterSets.map((set, index) => (
-            <button
-              key={index}
-              onClick={() => setUserInput((prevInput) => prevInput + set)}
-              className={`letterSet ${
-                letterSetStatus[set] === "incorrect"
-                  ? "incorrect"
-                  : letterSetStatus[set] === "correct"
-                  ? "correct"
-                  : ""
-              }`}
-            >
-              {set}
-            </button>
-          ))}
-        </div>
+    {letterSets.map((set, index) => (
+      <button
+        key={index}
+        onClick={() => handleLetterSetClick(set)}
+        className={`letterSet ${
+          letterSetStatus[set] === "incorrect"
+            ? "incorrect"
+            : letterSetStatus[set] === "correct"
+            ? "correct"
+            : ""
+        }`}
+      >
+        {set}
+      </button>
+    ))}
+  </div>
         <form onSubmit={handleSubmit}>
           <div className="inputContainer">
             <input
