@@ -1,0 +1,33 @@
+.shareText {
+  color: white; /* Change text color to white */
+  font-size: 24px; /* Increase font size */
+  font-family: 'Poppins', sans-serif; /* Use the "Poppins" font */
+  /* Additional styling for a cooler look */
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.5); /* Optional: Adds a subtle shadow for better readability */
+  letter-spacing: 1px; /* Optional: Increases spacing between letters */
+}
+
+.icon {
+  width: 40px;
+  height: 40px;
+}
+
+.shareOptions button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.social-icon, .copy-icon {
+  fill: white; /* Sets the SVG fill color to white */
+  color: white; /* Ensures text (if any) and stroke are white */
+}
+
+/* If the SocialIcon component renders an <svg> directly */
+.shareOptions button svg {
+  fill: white; /* For SVG icons */
+  color: white; /* For elements styled by CSS color property */
+}

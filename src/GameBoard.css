@@ -9,7 +9,7 @@
 
 .gameBoard {
     font-family: 'Arial, sans-serif';
-    padding: 200px;
+    padding: 100px;
     max-width: 600px;
     margin: 0 auto;
     height: 100%; /* Add this line */
@@ -198,6 +198,11 @@
   .hidden {
     display: none;
 }
+
+.buttonContainer{
+  flex-direction: row;
+}
+
 .wordLengthSelection {
   display: flex; /* Enables flexbox */
   justify-content: center; /* Centers children (buttons) horizontally */

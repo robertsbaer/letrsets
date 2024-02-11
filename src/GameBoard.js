@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./GameBoard.css";
 import wordsList from "./words.json";
-import wordsFor2024 from "./words_for_2024.json";
+import wordsForGame from "./words_for_game.json";
 
 function GameBoard() {
   const [userInput, setUserInput] = useState("");
@@ -21,25 +21,34 @@ function GameBoard() {
 
   useEffect(() => {
     const savedState = localStorage.getItem("gameState");
+    const lastPlayedDate = localStorage.getItem("lastPlayedDate");
+    const today = new Date().toDateString();
 
-    if (savedState) {
-      const state = JSON.parse(savedState);
-      setUserInput(state.userInput);
-      setGuessedWords(state.guessedWords);
-      setLetterSets(state.letterSets);
-      setSelectedWords(state.selectedWords);
-      setAttempts(state.attempts);
-      setGameOver(state.gameOver);
-      setMessage(state.message);
-      setShowWordCheck(state.showWordCheck);
-      setLetterSetStatus(state.letterSetStatus);
-      setSelectedWordLength(state.selectedWordLength);
-      setWonLevels(state.wonLevels);
-      setHintIndex(state.hintIndex);
-      setUsedSets(state.usedSets);
-      setIsInitialized(true); // Ensure we mark as initialized to prevent re-initialization
+    if (lastPlayedDate !== today) {
+        // clear localStorage and initialize the game
+        localStorage.clear();
+        initializeGame();
+        localStorage.setItem("lastPlayedDate", today);
+    } else if (savedState) {
+        // It's still the same day, restore saved state
+        const state = JSON.parse(savedState);
+        setUserInput(state.userInput);
+        setGuessedWords(state.guessedWords);
+        setLetterSets(state.letterSets);
+        setSelectedWords(state.selectedWords);
+        setAttempts(state.attempts);
+        setGameOver(state.gameOver);
+        setMessage(state.message);
+        setShowWordCheck(state.showWordCheck);
+        setLetterSetStatus(state.letterSetStatus);
+        setSelectedWordLength(state.selectedWordLength);
+        setWonLevels(state.wonLevels);
+        setHintIndex(state.hintIndex);
+        setUsedSets(state.usedSets);
+        setIsInitialized(true);
     } else {
-      initializeGame();
+        // If there is no savedState also initialize the game
+        initializeGame();
     }
   }, []);
 
@@ -62,25 +71,67 @@ function GameBoard() {
       };
       localStorage.setItem("gameState", JSON.stringify(gameState));
     }
-  }, [userInput, guessedWords, letterSets, selectedWords, attempts, gameOver, message, showWordCheck, letterSetStatus, selectedWordLength, wonLevels, hintIndex, usedSets, isInitialized]);
+  }, [
+    userInput,
+    guessedWords,
+    letterSets,
+    selectedWords,
+    attempts,
+    gameOver,
+    message,
+    showWordCheck,
+    letterSetStatus,
+    selectedWordLength,
+    wonLevels,
+    hintIndex,
+    usedSets,
+    isInitialized,
+  ]);
 
   useEffect(() => {
-    // Active checking for reset time
     const checkResetTime = () => {
       const now = new Date();
-      const todayMidnight = new Date(now).setHours(24, 0, 0, 0);
-      const currentTime = now.getTime();
-
-      if (currentTime >= todayMidnight) {
-        localStorage.clear(); // Clear localStorage
-        initializeGame(); // Re-initialize the game
-      }
+      const nextMidnight = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() + 1
+      );
+      const timeToNextMidnight = nextMidnight - now;
+      return timeToNextMidnight;
     };
 
-    const intervalId = setInterval(checkResetTime, 60 * 1000); // Check every minute
+    let resetInterval = setInterval(() => {
+      const timeToNextMidnight = checkResetTime();
+      if (timeToNextMidnight <= 60000) {
+        localStorage.clear();
+        initializeGame();
+      }
+    }, 60000); // every min
 
-    return () => clearInterval(intervalId);
+    return () => {
+      clearInterval(resetInterval); // clean-up on component unmount
+    }; 
   }, []);
+
+  useEffect(() => {
+    const savedState = localStorage.getItem("gameState");
+    const lastPlayedDate = localStorage.getItem("lastPlayedDate");
+    const today = new Date().toDateString();
+
+    if (lastPlayedDate !== today) {
+        // clear localStorage and initialize the game
+        localStorage.clear();
+        initializeGame();
+        localStorage.setItem("lastPlayedDate", today);
+    } else if (savedState) {
+        // It's still the same day, restore saved state
+        const state = JSON.parse(savedState);
+        // ... rest of your code here ...
+    } else {
+        // If there is no savedState also initialize the game
+        initializeGame();
+    }
+}, []); 
 
   const initializeGame = () => {
     // Get today's date and format it to match the keys in the JSON file
@@ -91,7 +142,7 @@ function GameBoard() {
     const todayKey = `${year}-${month}-${day}`;
 
     // Get the words for today from the JSON file
-    const wordsForToday = wordsFor2024[todayKey];
+    const wordsForToday = wordsForGame[todayKey];
 
     // If there are no words for today, you might want to handle this case differently
     if (!wordsForToday) {
@@ -400,6 +451,7 @@ function GameBoard() {
                 color: "#000", // Set the color to black
                 outline: "none", // Remove the outline
               }}
+              aria-label={`Select word of length ${length}`}
             >
               {length}
             </button>
@@ -438,9 +490,10 @@ function GameBoard() {
             />
             {/* Clear button right next to the input field */}
             <button
-              type="button" // Ensure this button does not submit the form
-              onClick={() => setUserInput("")} // Clear the userInput state
+              type="button"
+              onClick={() => setUserInput("")}
               className="clearButton"
+              aria-label="Clear text input"
             >
               Clear
             </button>
@@ -449,7 +502,8 @@ function GameBoard() {
             <button
               type="button"
               onClick={giveHint}
-              class="buttonCommon hintButton"
+              className="buttonCommon hintButton"
+              aria-label="Get a hint for the current word length"
             >
               Hint
             </button>
@@ -457,6 +511,7 @@ function GameBoard() {
               type="submit"
               class="buttonCommon submitButton"
               disabled={gameOver}
+              aria-label="Submit your answer"
             >
               Submit
             </button>
