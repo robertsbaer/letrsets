@@ -47,11 +47,14 @@ function NavBar() {
             Only <span className="emphasize">1</span> correct answer per word
             length
           </h3>
-          {/* <div style={{ display: "flex", flexDirection: "row" }}>
+          <div style={{ display: "flex", flexDirection: "row" }}>
             <p>Hint: </p>
             <p style={{ margin: "0 5px" }}> </p>
+            <div style={{ display: "flex", flexDirection: "column" }}>
             <p>Single letter sets are at the end of your word</p>
-          </div> */}
+            <p>In each word length you can only use a set once</p>
+            </div>
+          </div>
           <h3>Examples</h3>
           <p>- The 3 letter word to find is CAT</p>
           <p>- Tap "CA" then "T"</p>

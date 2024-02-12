@@ -120,9 +120,13 @@
   }
 
   .modal {
-    width: 90vw;
+    width: 100vw; /* Adjust width to ensure it fits the screen */
+    max-height: 100vh; /* Limit modal height to not exceed viewport height */
     padding: 10px;
     font-size: 18px;
+    overflow-y: auto; /* Enable vertical scrolling within the modal */
+    box-sizing: border-box; /* Ensure padding is included in the width calculation */
+    line-height: 2vh;
   }
 
   p, h3 {

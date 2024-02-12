@@ -245,9 +245,12 @@ function GameBoard() {
       } else {
         // Show incorrect attempt message
         setMessage({
-          text: "Incorrect attempt, try again!",
+          text: "Incorrect, try again!",
           visible: true,
         });
+        setTimeout(() => {
+          setMessage({ text: "", visible: false });
+        }, 4000); // Clear the message after 5 seconds
       }
     } else {
       // Show message if word length does not match
@@ -255,6 +258,9 @@ function GameBoard() {
         text: "The length of the entered word does not match the selected one.",
         visible: true,
       });
+      setTimeout(() => {
+        setMessage({ text: "", visible: false });
+      }, 4000); // Clear the message after 5 seconds
     }
   
     // Clear user input for the next attempt
@@ -272,6 +278,9 @@ function GameBoard() {
       ];
       setGuessedWords(newGuessedWords);
       setMessage({ text: "Correct!", visible: true });
+      setTimeout(() => {
+        setMessage({ text: "", visible: false });
+      }, 4000); // Clear the message after 5 seconds
   
       // Add to won levels if not already included
       if (!wonLevels.includes(wordLength)) {
@@ -285,6 +294,9 @@ function GameBoard() {
         text: "You have already guessed this word.",
         visible: true,
       });
+      setTimeout(() => {
+        setMessage({ text: "", visible: false });
+      }, 4000); // Clear the message after 5 seconds
     }
   };
   
