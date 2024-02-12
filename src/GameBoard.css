@@ -228,3 +228,67 @@
         justify-content: space-between; /* Add this line */
     }
   }
+
+  @media (max-width: 375px) {
+    /* Adjustments for smaller devices like iPhone 6, 7, 8, X */
+    .gameBoard {
+      padding: 20px;
+      max-width: 90%; /* Allow some margin on the smallest screens */
+    }
+  
+    .letterSet {
+      width: 40px; /* Slightly reduce size for smaller screens */
+      height: 40px;
+      font-size: 18px; /* Adjust font size for readability */
+    }
+  
+    .inputStyle, .buttonCommon {
+      padding: 12px 15px; /* Increase touch target size */
+    }
+  }
+
+  @media (max-width: 414px) {
+    /* Adjustments for larger devices like iPhone Plus models, iPhone 11 Pro Max, 12 Pro Max */
+    .gameBoard {
+      padding: 25px;
+    }
+  
+    .letterSet {
+      width: 45px;
+      height: 45px;
+      font-size: 19px;
+    }
+  
+    /* Consider adding more specific styles for these devices if necessary */
+  }
+
+  @media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px),
+  only screen 
+  and (min-device-width: 834px) 
+  and (max-device-width: 1112px), /* iPad Pro 10.5" */
+  only screen 
+  and (min-device-width: 1024px) 
+  and (max-device-width: 1366px) { /* iPad Pro 12.9" */
+
+  .gameBoard {
+    padding: 50px; /* Increase padding to make the game board larger */
+    max-width: 80%; /* Adjust max-width to utilize more screen space */
+    font-size: 24px; /* Increase font size for better readability */
+  }
+
+  .letterSet {
+    width: 60px; /* Increase width for larger touch targets */
+    height: 60px; /* Increase height for larger touch targets */
+    font-size: 24px; /* Increase font size for better visibility */
+    margin: 10px; /* Adjust spacing between letter sets */
+  }
+
+  .inputStyle, .buttonCommon {
+    padding: 15px 20px; /* Increase padding for easier interaction */
+    font-size: 20px; /* Increase font size for better readability */
+  }
+
+  /* Increase size of other elements as needed */
+}

@@ -73,6 +73,19 @@
   text-align: left;
   border: 10px solid #ff8c00;
   border-radius: 10px;
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  overflow-y: auto; /* Allow scrolling inside the modal if the content exceeds its height */
+  max-width: 100%; /* Limit modal width to not exceed 90% of the viewport width */
+  max-height: 90%; /* Limit modal height to not exceed 90% of the viewport height */
+  overflow-y: auto;
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge, and Firefox */
+-ms-overflow-style: none;  /* IE and Edge */
+scrollbar-width: none;  /* Firefox */
 }
 
 .points-box {
@@ -120,17 +133,15 @@
   }
 
   .modal {
-    width: 100vw; /* Adjust width to ensure it fits the screen */
-    max-height: 100vh; /* Limit modal height to not exceed viewport height */
+    width: 100vw; /* Take up nearly full viewport width on small screens */
+    height: auto; /* Allow modal height to adjust based on content */
+    max-height: 80vh; /* Ensure modal does not exceed 95% of viewport height */
     padding: 10px;
-    font-size: 18px;
-    overflow-y: auto; /* Enable vertical scrolling within the modal */
-    box-sizing: border-box; /* Ensure padding is included in the width calculation */
-    line-height: 2vh;
+    font-size: 16px; /* Adjust font size for readability on small screens */
   }
 
-  p, h3 {
-    font-size: 0.875rem;
+  .modal p, .modal h3 {
+    font-size: 0.875rem; /* Adjust text size for small screens */
   }
 }
 
@@ -152,36 +163,40 @@
   }
 
   .modal {
-    width: 50vw;
-    max-width: 600px;
-    padding: 30px;
-    font-size: 22px;
+    width: 50vw; /* Use a larger percentage of the viewport width on larger screens */
+    max-width: 600px; /* Cap modal width to a maximum */
+    height: auto; /* Adjust height based on content, with a maximum limit */
+    max-height: 80vh; /* Prevent modal from exceeding 80% of viewport height */
+    padding: 20px;
+    font-size: 18px; /* Increase font size for readability on larger screens */
   }
 
-  p, h3 {
-    font-size: 1rem;
+  .modal p, .modal h3 {
+    font-size: 1rem; /* Adjust text size for larger screens */
   }
 }
 
 /* Adjustments for very small screens like iPhone SE and iPhone 5 */
 @media (max-width: 320px) {
   .modal {
-    width: 90vw;
-    max-width: 288px;
-    padding: 10px;
-    font-size: 16px;
-    overflow-y: auto;
+    width: 100vw; /* Use most of the viewport width */
+    max-width: 100vw; /* Specifically tailored to fit iPhone 5's width */
+    padding: 10px; /* Reduce padding to save space */
+    font-size: 14px; /* Slightly reduce font size for better fit */
+    line-height: 1.2; /* Improve readability with adjusted line height */
+    overflow-y: auto; /* Ensure content can scroll if it overflows the modal's height */
+    max-height: 100vh; /* Prevent the modal from exceeding the viewport height */
   }
 
   .modal p, .modal h3 {
-    font-size: 0.75rem;
+    font-size: 0.75rem; /* Further reduce text size for small screens */
   }
 
+  /* Adjust button size and spacing for smaller screens */
   .instruction-button {
-    top: 5px;
-    right: 5px;
-    width: 35px;
-    height: 35px;
-    font-size: 20px;
+    width: 35px; /* Reduce button size */
+    height: 35px; /* Maintain aspect ratio */
+    font-size: 20px; /* Adjust icon size to fit button */
+    margin: 5px; /* Reduce margin around buttons to save space */
   }
 }

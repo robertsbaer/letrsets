@@ -47,12 +47,12 @@ function NavBar() {
             Only <span className="emphasize">1</span> correct answer per word
             length
           </h3>
+          <h3>Hint:</h3>
           <div style={{ display: "flex", flexDirection: "row" }}>
-            <p>Hint: </p>
             <p style={{ margin: "0 5px" }}> </p>
             <div style={{ display: "flex", flexDirection: "column" }}>
-            <p>Single letter sets are at the end of your word</p>
-            <p>In each word length you can only use a set once</p>
+            <p>- Single letter sets are at the end of your word</p>
+            <p>- In each word length you can only use a set once</p>
             </div>
           </div>
           <h3>Examples</h3>

@@ -19,12 +19,12 @@ const ShareOptions = ({ url }) => {
       <div className="buttonContainer">
         {/* Facebook Share Button */}
         <FacebookShareButton url={url} quote={shareText} className="Demo__some-network__share-button">
-          <FacebookIcon size={40} round />
+          <FacebookIcon size={62} round />
         </FacebookShareButton>
         
         {/* Twitter Share Button */}
         <TwitterShareButton url={url} title={shareText} className="Demo__some-network__share-button">
-          <TwitterIcon size={40} round />
+          <TwitterIcon size={62} round />
         </TwitterShareButton>
 
         {/* Copy to Clipboard Button */}
@@ -32,6 +32,7 @@ const ShareOptions = ({ url }) => {
           <button title="Copy URL">
             <IoMdShare
               style={{
+                fontSize: "34px",
                 backgroundColor: "orange",
                 padding: "15px",
                 borderRadius: "50px",
