@@ -52,7 +52,7 @@
 
 .emphasize {
   font-weight: bold;
-  color: #ff0000;
+  color: #f66a00;
 }
 
 .game-title {
@@ -198,5 +198,49 @@ scrollbar-width: none;  /* Firefox */
     height: 35px; /* Maintain aspect ratio */
     font-size: 20px; /* Adjust icon size to fit button */
     margin: 5px; /* Reduce margin around buttons to save space */
+  }
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #ff647c;
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 5px 8px;
+}
+
+.points-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.medal-icon {
+  font-size: 24px; /* Adjust the size of the medal icon */
+  color: #ffd700; /* Gold color for the medal */
+}
+
+.points {
+  font-size: 20px;
+  font-weight: bold;
+  animation: scale-up 0.3s ease-in-out;
+}
+
+@keyframes scale-up {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
   }
 }

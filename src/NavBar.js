@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { FaMedal } from "react-icons/fa6";
 import { IoMdShare } from "react-icons/io";
 import "./NavBar.css";
 import ShareOptions from "./ShareOptions.js";
@@ -6,6 +7,31 @@ import ShareOptions from "./ShareOptions.js";
 function NavBar() {
   const [showModal, setShowModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
+  const [showShareModalPoints, setShowShareModalPoints] = useState(false);
+  const [points, setPoints] = useState(Math.floor(localStorage.getItem("points") || 0));
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const updatedPoints = localStorage.getItem("points") || 0;
+      console.log('LocalStorage updated points:', updatedPoints); // Log for debugging
+      setPoints(Math.floor(updatedPoints));
+    };
+  
+    const handlePointsUpdated = (event) => {
+      console.log('Points updated event received:', event.detail.points); // Log for debugging
+      setPoints(Math.floor(event.detail.points));
+    };
+
+    // Add event listener for local storage changes
+    window.addEventListener("storage", handleStorageChange);
+    window.addEventListener("pointsUpdated", handlePointsUpdated);
+
+    // Cleanup listener on component unmount
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("pointsUpdated", handlePointsUpdated);
+    };
+  }, []);
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -23,10 +49,24 @@ function NavBar() {
     setShowShareModal(false);
   };
 
+  const handleOpenShareModalPoints = () => {
+    setShowShareModalPoints(true);
+  };
+
+  const handleCloseShareModalPoints = () => {
+    setShowShareModalPoints(false);
+  };
+
   return (
     <div className="NavBar">
       <h1 className="game-title">LetRSets</h1>
       <div className="points-and-instructions">
+        <button
+          onClick={handleOpenShareModalPoints}
+          className="instruction-button"
+        >
+          <FaMedal />
+        </button>
         <button onClick={handleOpenShareModal} className="instruction-button">
           <IoMdShare />
         </button>
@@ -51,8 +91,8 @@ function NavBar() {
           <div style={{ display: "flex", flexDirection: "row" }}>
             <p style={{ margin: "0 5px" }}> </p>
             <div style={{ display: "flex", flexDirection: "column" }}>
-            <p>- Single letter sets are at the end of your word</p>
-            <p>- In each word length you can only use a set once</p>
+              <p>- Single letter sets are at the end of your word</p>
+              <p>- In each word length you can only use a set once</p>
             </div>
           </div>
           <h3>Examples</h3>
@@ -84,6 +124,20 @@ function NavBar() {
             X
           </button>
           <ShareOptions url="https://letrsets.com" />
+        </div>
+      )}
+      {showShareModalPoints && (
+        <div className="modal">
+          <button
+            onClick={handleCloseShareModalPoints}
+            className="close-button"
+          >
+            X
+          </button>
+          <div className="points-container">
+            <FaMedal className="medal-icon" />
+            <p className="points">You've won <span className="emphasize">{points}</span> games</p>
+          </div>
         </div>
       )}
     </div>
