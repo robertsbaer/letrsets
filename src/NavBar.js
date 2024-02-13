@@ -8,17 +8,19 @@ function NavBar() {
   const [showModal, setShowModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showShareModalPoints, setShowShareModalPoints] = useState(false);
-  const [points, setPoints] = useState(Math.floor(localStorage.getItem("points") || 0));
+  const [points, setPoints] = useState(
+    Math.floor(localStorage.getItem("points") || 0)
+  );
 
   useEffect(() => {
     const handleStorageChange = () => {
       const updatedPoints = localStorage.getItem("points") || 0;
-      console.log('LocalStorage updated points:', updatedPoints); // Log for debugging
+      console.log("LocalStorage updated points:", updatedPoints); // Log for debugging
       setPoints(Math.floor(updatedPoints));
     };
-  
+
     const handlePointsUpdated = (event) => {
-      console.log('Points updated event received:', event.detail.points); // Log for debugging
+      console.log("Points updated event received:", event.detail.points); // Log for debugging
       setPoints(Math.floor(event.detail.points));
     };
 
@@ -64,13 +66,22 @@ function NavBar() {
         <button
           onClick={handleOpenShareModalPoints}
           className="instruction-button"
+          aria-label="Open share modal for points"
         >
           <FaMedal />
         </button>
-        <button onClick={handleOpenShareModal} className="instruction-button">
+        <button
+          onClick={handleOpenShareModal}
+          className="instruction-button"
+          aria-label="Open share modal"
+        >
           <IoMdShare />
         </button>
-        <button onClick={handleOpenModal} className="instruction-button">
+        <button
+          onClick={handleOpenModal}
+          className="instruction-button"
+          aria-label="Open help modal"
+        >
           ?
         </button>
       </div>
@@ -136,7 +147,9 @@ function NavBar() {
           </button>
           <div className="points-container">
             <FaMedal className="medal-icon" />
-            <p className="points">You've won <span className="emphasize">{points}</span> games</p>
+            <p className="points">
+              You've won <span className="emphasize">{points}</span> games
+            </p>
           </div>
         </div>
       )}

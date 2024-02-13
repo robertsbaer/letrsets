@@ -524,7 +524,7 @@ function GameBoard() {
                 height: "40px", // Set a fixed height to match the width, adjust as needed
                 borderRadius: "50%", // This will make it a perfect circle
                 background: wonLevels.includes(length)
-                  ? "#28a745"
+                  ? "#2E8540"
                   : selectedWordLength === length
                   ? "#ff8c00"
                   : "#fff",
