@@ -19,7 +19,7 @@ function GameBoard() {
   const [usedSets, setUsedSets] = useState({});
   const [isInitialized, setIsInitialized] = useState(false);
   const [pointsUpdated, setPointsUpdated] = useState(false);
-
+  const [gamePlayed, setGamePlayed] = useState(false);
 
   useEffect(() => {
     const savedState = localStorage.getItem("gameState");
@@ -29,9 +29,9 @@ function GameBoard() {
     if (lastPlayedDate !== today) {
       // Save points before clearing localStorage
       const points = localStorage.getItem("points");
-      
+
       localStorage.clear();
-      
+
       // Restore points after clearing
       if (points) {
         localStorage.setItem("points", points);
@@ -108,7 +108,7 @@ function GameBoard() {
       const timeToNextMidnight = nextMidnight - now;
       return timeToNextMidnight;
     };
-  
+
     let resetInterval = setInterval(() => {
       const timeToNextMidnight = checkResetTime();
       if (timeToNextMidnight <= 60000) {
@@ -118,7 +118,7 @@ function GameBoard() {
         initializeGame();
       }
     }, 60000); // every min
-  
+
     return () => {
       clearInterval(resetInterval); // clean-up on component unmount
     };
@@ -128,29 +128,30 @@ function GameBoard() {
     const savedState = localStorage.getItem("gameState");
     const lastPlayedDate = localStorage.getItem("lastPlayedDate");
     const today = new Date().toDateString();
-  
+
     if (lastPlayedDate !== today) {
       // Save points before clearing localStorage
       const points = localStorage.getItem("points");
-      
+
       // Remove specific items instead of clearing everything
       localStorage.removeItem("gameState");
       localStorage.removeItem("lastPlayedDate");
-      
+
       // Calculate and save points
-      const savedWonLevels = JSON.parse(localStorage.getItem("wonLevels")) || [];
+      const savedWonLevels =
+        JSON.parse(localStorage.getItem("wonLevels")) || [];
       const allLevelsWon = [3, 4, 5, 6, 7, 8].every((length) =>
         savedWonLevels.includes(length)
       );
       const existingPoints = parseFloat(localStorage.getItem("points") || "0");
       let newTotalPoints = existingPoints;
-  
+
       if (allLevelsWon) {
         newTotalPoints += 1; // Add 1 point if all levels are won
       }
-  
+
       localStorage.setItem("points", newTotalPoints.toFixed(2));
-      
+
       // Restore points after clearing
       if (points) {
         setTimeout(() => {
@@ -168,7 +169,7 @@ function GameBoard() {
       initializeGame();
     }
   }, []);
-  
+
   useEffect(() => {
     localStorage.setItem("wonLevels", JSON.stringify(wonLevels));
   }, [wonLevels]);
@@ -217,6 +218,7 @@ function GameBoard() {
     allSets = shuffleArray(allSets);
     setLetterSets(allSets);
     setIsInitialized(true);
+    setGamePlayed(true);
   };
 
   const shuffleArray = (array) => {
@@ -309,6 +311,12 @@ function GameBoard() {
     setAttempts((prevAttempts) => prevAttempts + 1);
   };
 
+  useEffect(() => {
+    return () => {
+      setGamePlayed(false);
+    };
+  }, []);
+
   const handleCorrectGuess = (inputWord) => {
     const wordLength = inputWord.length;
     if (
@@ -373,40 +381,43 @@ function GameBoard() {
     }
   };
 
-useEffect(() => {
-  const allLevelsWon = [3, 4, 5, 6, 7, 8].every((length) =>
-    wonLevels.includes(length)
-  );
-
-  if (allLevelsWon && selectedWords.length && !gameOver) {
-    setGameOver(true);
-    setMessage({
-      text: "Congratulations! Come back tomorrow for another round",
-      visible: true,
-    });
-    setTimeout(() => {
-      setMessage({ text: "", visible: false });
-    }, 5000);
-  }
-
-  if (gameOver && !pointsUpdated) {
-    const existingPoints = parseFloat(localStorage.getItem("points") || "0");
-    let newTotalPoints;
-
-    if (allLevelsWon) {
-      newTotalPoints = existingPoints + 1; // Add 1 point if all levels are won
-    } else {
-      const levelsFailed = [3, 4, 5, 6, 7, 8].filter((length) => !wonLevels.includes(length)).length;
-      newTotalPoints = existingPoints - (levelsFailed / 6); // Deduct 1/6th point for each level failed
-    }
-
-    localStorage.setItem("points", newTotalPoints.toFixed(2));
-    setPointsUpdated(true); // Set pointsUpdated to true after updating the points
-
-    window.dispatchEvent(new CustomEvent("pointsUpdated", { detail: { points: newTotalPoints } }));
-  }
-}, [wonLevels, selectedWords.length, gameOver, pointsUpdated]); 
+  useEffect(() => {
+    const allLevelsWon = [3, 4, 5, 6, 7, 8].every((length) =>
+      wonLevels.includes(length)
+    );
   
+    if (allLevelsWon && selectedWords.length && !gameOver) {
+      setGameOver(true);
+      setMessage({
+        text: "Congratulations! Come back tomorrow for another round",
+        visible: true,
+      });
+      setTimeout(() => {
+        setMessage({ text: "", visible: false });
+      }, 5000);
+    }
+  
+    if (gameOver && !pointsUpdated && gamePlayed) {
+      const existingPoints = parseFloat(localStorage.getItem("points") || "0");
+      let newTotalPoints;
+  
+      if (allLevelsWon) {
+        newTotalPoints = existingPoints + 1; // Add 1 point if all levels are won
+      } else {
+        const levelsFailed = [3, 4, 5, 6, 7, 8].filter(
+          (length) => !wonLevels.includes(length)
+        ).length;
+        newTotalPoints = existingPoints - levelsFailed / 6; // Deduct 1/6th point for each level failed
+      }
+  
+      localStorage.setItem("points", newTotalPoints.toFixed(2));
+      setPointsUpdated(true); // Set pointsUpdated to true after updating the points
+  
+      window.dispatchEvent(
+        new CustomEvent("pointsUpdated", { detail: { points: newTotalPoints } })
+      );
+    }
+  }, [wonLevels, selectedWords.length, gameOver, pointsUpdated, gamePlayed]);
 
   const giveHint = () => {
     // Filter for unguessed words of the selected length
