@@ -58,6 +58,7 @@
 .game-title {
   color: white;
   font: 24px 'Arial', sans-serif; /* Combined font properties */
+  font-weight: bold;
 }
 
 .modal {

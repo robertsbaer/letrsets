@@ -61,7 +61,7 @@ function NavBar() {
 
   return (
     <div className="NavBar">
-      <h1 class="game-title">LetRSets</h1>
+      <h3 className="game-title">LetRSets</h3>
       <div className="points-and-instructions">
         <button
           onClick={handleOpenShareModalPoints}
