@@ -76,7 +76,8 @@
   box-sizing: border-box; /* Include padding and border in the element's total width and height */
   overflow-y: auto; /* Allow scrolling inside the modal if the content exceeds its height */
   max-width: 100%; /* Limit modal width to not exceed 90% of the viewport width */
-  max-height: 90%; /* Limit modal height to not exceed 90% of the viewport height */
+  height: 100%;
+  max-height: 70vh; /* Limit modal height to not exceed 90% of the viewport height */
   overflow-y: auto;
 
 ::-webkit-scrollbar {
@@ -107,23 +108,29 @@ scrollbar-width: none;  /* Firefox */
 /* Mobile styles */
 @media (max-width: 600px) {
   .NavBar {
-    padding: 10px 20px;
+    padding: 0px 15px; /* Slightly reduce side padding */
   }
 
-  .points {
-    font-size: 1.3em;
-    padding: 1px;
-    text-transform: uppercase;
+  .modal {
+    padding: 18px; /* Reduce padding to create more space */
+    font-size: 15px; /* Slightly reduce the base font size for modal content */
+    overflow-y: auto; /* Ensure modal content is scrollable */
+    height: auto;
+    max-height: 100vh; /* Reduce max height to provide padding around the modal */
+    width: 100vw;
   }
 
-  .points-box {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 1px 5px;
-    border: 1px solid #ffffff;
-    border-radius: 5px;
-    margin-left: 10px;
+  .modal p, .modal h3 {
+    font-size: 0.8rem; /* Further reduce font size for text elements */
+    margin-top: 0.5rem; /* Reduce margins to fit more content */
+    margin-bottom: 0.5rem; /* Adjust bottom margins as well */
+  }
+
+  .instruction-button {
+    font-size: 22px; /* Reduce button font size slightly */
+    width: 35px; /* Adjust button width */
+    height: 35px; /* Adjust button height */
+    margin: 3px; /* Tighten margins around buttons */
   }
 
   .points-and-instructions {
@@ -132,18 +139,12 @@ scrollbar-width: none;  /* Firefox */
     align-items: center;
   }
 
-  .modal {
-    width: 100vw; /* Take up nearly full viewport width on small screens */
-    height: auto; /* Allow modal height to adjust based on content */
-    max-height: 80vh; /* Ensure modal does not exceed 95% of viewport height */
-    padding: 10px;
-    font-size: 16px; /* Adjust font size for readability on small screens */
-  }
-
-  .modal p, .modal h3 {
-    font-size: 0.875rem; /* Adjust text size for small screens */
+  /* Ensure that critical action items like close buttons are easily accessible */
+  .close-button {
+    padding: 5px 8px; /* Adjust padding for better touch targets */
   }
 }
+
 
 /* Desktop and larger devices */
 @media (min-width: 601px) {
@@ -166,7 +167,7 @@ scrollbar-width: none;  /* Firefox */
     width: 50vw; /* Use a larger percentage of the viewport width on larger screens */
     max-width: 600px; /* Cap modal width to a maximum */
     height: auto; /* Adjust height based on content, with a maximum limit */
-    max-height: 80vh; /* Prevent modal from exceeding 80% of viewport height */
+    max-height: 90vh; /* Prevent modal from exceeding 80% of viewport height */
     padding: 20px;
     font-size: 18px; /* Increase font size for readability on larger screens */
   }

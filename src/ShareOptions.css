@@ -30,3 +30,12 @@
   fill: white; /* For SVG icons */
   color: white; /* For elements styled by CSS color property */
 }
+
+.buyMeCoffeeContainer {
+  width: 100%;
+  padding-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto; /* Set left margin to auto */
+}

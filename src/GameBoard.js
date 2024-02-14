@@ -269,12 +269,15 @@ function GameBoard() {
       // Mark each letter set as correct or incorrect
       inputLetterSets.forEach((set) => {
         if (currentLetterSets.includes(set) && !usedSets[set]) {
-          newLetterSetStatus[set] = "correct";
-          setUsedSets((prevUsedSets) => ({ ...prevUsedSets, [set]: true }));
+          setTimeout(() => {
+            newLetterSetStatus[set] = "correct";
+            setUsedSets((prevUsedSets) => ({ ...prevUsedSets, [set]: true }));
+          }, 500); // Halfway through the animation
         } else {
-          // Mark as incorrect only if not previously used or not correct
           if (!newLetterSetStatus[set]) {
-            newLetterSetStatus[set] = "incorrect";
+            setTimeout(() => {
+              newLetterSetStatus[set] = "incorrect";
+            }, 500); // Halfway through the animation
           }
         }
       });
@@ -293,7 +296,7 @@ function GameBoard() {
         });
         setTimeout(() => {
           setMessage({ text: "", visible: false });
-        }, 4000); // Clear the message after 5 seconds
+        }, 1000); // Clear the message after 5 seconds
       }
     } else {
       // Show message if word length does not match
