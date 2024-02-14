@@ -103,7 +103,6 @@ function NavBar() {
             <p style={{ margin: "0 5px" }}> </p>
             <div style={{ display: "flex", flexDirection: "column" }}>
               <p>- Single letter sets are at the end of your word</p>
-              <p>- In each word length you can only use a set once</p>
             </div>
           </div>
           <h3>Examples</h3>
