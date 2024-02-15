@@ -1,59 +1,59 @@
 import React, { useEffect, useState } from "react";
 import "./GameBoard.css";
 import wordsList from "./words.json";
-import wordsForGame from "./words_for_game_en.json";
+import wordsForGame from "./words_for_game_fr.json";
 
 function GameBoard() {
-  const [userInput, setUserInput] = useState("");
-  const [guessedWords, setGuessedWords] = useState([]);
-  const [letterSets, setLetterSets] = useState([]);
-  const [selectedWords, setSelectedWords] = useState([]);
-  const [attempts, setAttempts] = useState(0);
-  const [gameOver, setGameOver] = useState(false);
-  const [message, setMessage] = useState({ text: "", visible: false });
-  const [showWordCheck, setShowWordCheck] = useState(false);
-  const [letterSetStatus, setLetterSetStatus] = useState({});
-  const [selectedWordLength, setSelectedWordLength] = useState(null);
-  const [wonLevels, setWonLevels] = useState([]);
-  const [hintIndex, setHintIndex] = useState(0);
-  const [usedSets, setUsedSets] = useState({});
-  const [isInitialized, setIsInitialized] = useState(false);
-  const [pointsUpdated, setPointsUpdated] = useState(false);
-  const [gamePlayed, setGamePlayed] = useState(false);
+  const [userInputFR, setUserInput] = useState("");
+  const [guessedWordsFR, setGuessedWords] = useState([]);
+  const [letterSetsFR, setLetterSets] = useState([]);
+  const [selectedWordsFR, setSelectedWords] = useState([]);
+  const [attemptsFR, setAttempts] = useState(0);
+  const [gameOverFR, setGameOver] = useState(false);
+  const [messageFR, setMessage] = useState({ text: "", visible: false });
+  const [showWordCheckFR, setShowWordCheck] = useState(false);
+  const [letterSetStatusFR, setLetterSetStatus] = useState({});
+  const [selectedWordLengthFR, setSelectedWordLength] = useState(null);
+  const [wonLevelsFR, setWonLevels] = useState([]);
+  const [hintIndexFR, setHintIndex] = useState(0);
+  const [usedSetsFR, setUsedSets] = useState({});
+  const [isInitializedFR, setIsInitialized] = useState(false);
+  const [pointsUpdatedFR, setPointsUpdated] = useState(false);
+  const [gamePlayedFR, setGamePlayed] = useState(false);
 
   useEffect(() => {
-    const savedState = localStorage.getItem("gameState");
-    const lastPlayedDate = localStorage.getItem("lastPlayedDate");
+    const savedStateFR = localStorage.getItem("gameStateFR");
+    const lastPlayedDateFR = localStorage.getItem("lastPlayedDateFR");
     const today = new Date().toDateString();
 
-    if (lastPlayedDate !== today) {
+    if (lastPlayedDateFR !== today) {
       // Save points before clearing localStorage
-      const points = localStorage.getItem("points");
+      const pointsFR = localStorage.getItem("pointsFR");
 
       localStorage.clear();
 
       // Restore points after clearing
-      if (points) {
-        localStorage.setItem("points", points);
+      if (pointsFR) {
+        localStorage.setItem("pointsFR", pointsFR);
       }
       initializeGame();
-      localStorage.setItem("lastPlayedDate", today);
-    } else if (savedState) {
+      localStorage.setItem("lastPlayedDateFR", today);
+    } else if (savedStateFR) {
       // It's still the same day, restore saved state
-      const state = JSON.parse(savedState);
-      setUserInput(state.userInput);
-      setGuessedWords(state.guessedWords);
-      setLetterSets(state.letterSets);
-      setSelectedWords(state.selectedWords);
-      setAttempts(state.attempts);
-      setGameOver(state.gameOver);
-      setMessage(state.message);
-      setShowWordCheck(state.showWordCheck);
-      setLetterSetStatus(state.letterSetStatus);
-      setSelectedWordLength(state.selectedWordLength);
-      setWonLevels(state.wonLevels);
-      setHintIndex(state.hintIndex);
-      setUsedSets(state.usedSets);
+      const state = JSON.parse(savedStateFR);
+      setUserInput(state.userInputFR);
+      setGuessedWords(state.guessedWordsFR);
+      setLetterSets(state.letterSetsFR);
+      setSelectedWords(state.selectedWordsFR);
+      setAttempts(state.attemptsFR);
+      setGameOver(state.gameOverFR);
+      setMessage(state.messageFR);
+      setShowWordCheck(state.showWordCheckFR);
+      setLetterSetStatus(state.letterSetStatusFR);
+      setSelectedWordLength(state.selectedWordLengthFR);
+      setWonLevels(state.wonLevelsFR);
+      setHintIndex(state.hintIndexFR);
+      setUsedSets(state.usedSetsFR);
       setIsInitialized(true);
     } else {
       // If there is no savedState also initialize the game
@@ -62,39 +62,39 @@ function GameBoard() {
   }, []);
 
   useEffect(() => {
-    if (isInitialized) {
-      const gameState = {
-        userInput,
-        guessedWords,
-        letterSets,
-        selectedWords,
-        attempts,
-        gameOver,
-        message,
-        showWordCheck,
-        letterSetStatus,
-        selectedWordLength,
-        wonLevels,
-        hintIndex,
-        usedSets,
+    if (isInitializedFR) {
+      const gameStateFR = {
+        userInputFR,
+        guessedWordsFR,
+        letterSetsFR,
+        selectedWordsFR,
+        attemptsFR,
+        gameOverFR,
+        messageFR,
+        showWordCheckFR,
+        letterSetStatusFR,
+        selectedWordLengthFR,
+        wonLevelsFR,
+        hintIndexFR,
+        usedSetsFR,
       };
-      localStorage.setItem("gameState", JSON.stringify(gameState));
+      localStorage.setItem("gameStateFR", JSON.stringify(gameStateFR));
     }
   }, [
-    userInput,
-    guessedWords,
-    letterSets,
-    selectedWords,
-    attempts,
-    gameOver,
-    message,
-    showWordCheck,
-    letterSetStatus,
-    selectedWordLength,
-    wonLevels,
-    hintIndex,
-    usedSets,
-    isInitialized,
+    userInputFR,
+    guessedWordsFR,
+    letterSetsFR,
+    selectedWordsFR,
+    attemptsFR,
+    gameOverFR,
+    messageFR,
+    showWordCheckFR,
+    letterSetStatusFR,
+    selectedWordLengthFR,
+    wonLevelsFR,
+    hintIndexFR,
+    usedSetsFR,
+    isInitializedFR,
   ]);
 
   useEffect(() => {
@@ -171,8 +171,8 @@ function GameBoard() {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("wonLevels", JSON.stringify(wonLevels));
-  }, [wonLevels]);
+    localStorage.setItem("wonLevels", JSON.stringify(wonLevelsFR));
+  }, [wonLevelsFR]);
 
   const initializeGame = () => {
     // Get today's date and format it to match the keys in the JSON file
@@ -239,8 +239,8 @@ function GameBoard() {
 
   const isWordValid = (inputWord) => {
     // Get the current word
-    const currentWord = selectedWords.find(
-      (word) => word.length === selectedWordLength
+    const currentWord = selectedWordsFR.find(
+      (word) => word.length === selectedWordLengthFR
     );
 
     // Check if the input word matches the current word
@@ -249,26 +249,26 @@ function GameBoard() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    let inputWord = userInput.toUpperCase();
+    let inputWord = userInputFR.toUpperCase();
 
     // Reset error or success message
     setMessage({ text: "", visible: false });
 
-    if (inputWord.length === selectedWordLength) {
-      const newLetterSetStatus = { ...letterSetStatus };
+    if (inputWord.length === selectedWordLengthFR) {
+      const newLetterSetStatus = { ...letterSetStatusFR };
       const inputLetterSets = extractLetterSets(inputWord).map((set) =>
         set.toUpperCase()
       );
 
       // Get current letter sets of the selected word
-      const currentWord = selectedWords
-        .find((word) => word.length === selectedWordLength)
+      const currentWord = selectedWordsFR
+        .find((word) => word.length === selectedWordLengthFR)
         .toUpperCase();
       const currentLetterSets = extractLetterSets(currentWord);
 
       // Mark each letter set as correct or incorrect
       inputLetterSets.forEach((set) => {
-        if (currentLetterSets.includes(set) && !usedSets[set]) {
+        if (currentLetterSets.includes(set) && !usedSetsFR[set]) {
           setTimeout(() => {
             newLetterSetStatus[set] = "correct";
             setUsedSets((prevUsedSets) => ({ ...prevUsedSets, [set]: true }));
@@ -291,7 +291,7 @@ function GameBoard() {
       } else {
         // Show incorrect attempt message
         setMessage({
-          text: "Incorrect, try again!",
+          text: "Faux. Essayez à nouveau!",
           visible: true,
         });
         setTimeout(() => {
@@ -301,7 +301,7 @@ function GameBoard() {
     } else {
       // Show message if word length does not match
       setMessage({
-        text: "The length of the entered word does not match the selected one.",
+        text: "La longueur du mot saisi ne correspond pas à celle sélectionnée.",
         visible: true,
       });
       setTimeout(() => {
@@ -323,12 +323,12 @@ function GameBoard() {
   const handleCorrectGuess = (inputWord) => {
     const wordLength = inputWord.length;
     if (
-      !guessedWords.some(
+      !guessedWordsFR.some(
         ({ word }) => word.toLowerCase() === inputWord.toLowerCase()
       )
     ) {
       const newGuessedWords = [
-        ...guessedWords,
+        ...guessedWordsFR,
         { word: inputWord, length: wordLength },
       ];
       setGuessedWords(newGuessedWords);
@@ -338,15 +338,15 @@ function GameBoard() {
       }, 4000); // Clear the message after 5 seconds
 
       // Add to won levels if not already included
-      if (!wonLevels.includes(wordLength)) {
-        setWonLevels([...wonLevels, wordLength]);
+      if (!wonLevelsFR.includes(wordLength)) {
+        setWonLevels([...wonLevelsFR, wordLength]);
       }
 
       // Check if all words have been guessed
       checkGameCompletion(newGuessedWords);
     } else {
       setMessage({
-        text: "You have already guessed this word.",
+        text: "Vous avez déjà essayé ce mot.",
         visible: true,
       });
       setTimeout(() => {
@@ -356,9 +356,9 @@ function GameBoard() {
   };
 
   const checkGameCompletion = (newGuessedWords) => {
-    if (newGuessedWords.length === selectedWords.length) {
+    if (newGuessedWords.length === selectedWordsFR.length) {
       setMessage({
-        text: "Congratulations! You have found all the words.",
+        text: "Félicitations! Vous avez trouvé tous les mots.",
         visible: true,
       });
       setGameOver(true);
@@ -366,10 +366,10 @@ function GameBoard() {
   };
 
   const handleLetterSetClick = (set) => {
-    if (set.length === 1 && userInput.length === 0) {
+    if (set.length === 1 && userInputFR.length === 0) {
       // If the set has a single letter and it is the user's first selection
       setMessage({
-        text: "Individual letters are at the end of the word.",
+        text: "Les lettres individuelles se trouvent à la fin du mot.",
         visible: true,
       });
       // Optionally, you can decide if you want to clear this message after some time
@@ -386,13 +386,13 @@ function GameBoard() {
 
   useEffect(() => {
     const allLevelsWon = [3, 4, 5, 6, 7, 8].every((length) =>
-      wonLevels.includes(length)
+      wonLevelsFR.includes(length)
     );
   
-    if (allLevelsWon && selectedWords.length && !gameOver) {
+    if (allLevelsWon && selectedWordsFR.length && !gameOverFR) {
       setGameOver(true);
       setMessage({
-        text: "Congratulations! Come back tomorrow for another round",
+        text: "Félicitations! Revenez demain pour un autre jeu",
         visible: true,
       });
       setTimeout(() => {
@@ -400,7 +400,7 @@ function GameBoard() {
       }, 5000);
     }
   
-    if (gameOver && !pointsUpdated && gamePlayed) {
+    if (gameOverFR && !pointsUpdatedFR && gamePlayedFR) {
       const existingPoints = parseFloat(localStorage.getItem("points") || "0");
       let newTotalPoints;
   
@@ -408,7 +408,7 @@ function GameBoard() {
         newTotalPoints = existingPoints + 1; // Add 1 point if all levels are won
       } else {
         const levelsFailed = [3, 4, 5, 6, 7, 8].filter(
-          (length) => !wonLevels.includes(length)
+          (length) => !wonLevelsFR.includes(length)
         ).length;
         newTotalPoints = existingPoints - levelsFailed / 6; // Deduct 1/6th point for each level failed
       }
@@ -420,21 +420,21 @@ function GameBoard() {
         new CustomEvent("pointsUpdated", { detail: { points: newTotalPoints } })
       );
     }
-  }, [wonLevels, selectedWords.length, gameOver, pointsUpdated, gamePlayed]);
+  }, [wonLevelsFR, selectedWordsFR.length, gameOverFR, pointsUpdatedFR, gamePlayedFR]);
 
   const giveHint = () => {
     // Filter for unguessed words of the selected length
-    const unguessedWords = selectedWords.filter(
+    const unguessedWords = selectedWordsFR.filter(
       (word) =>
-        !guessedWords.some(
+        !guessedWordsFR.some(
           (guessedWord) => guessedWord.word.toLowerCase() === word.toLowerCase()
-        ) && word.length === selectedWordLength
+        ) && word.length === selectedWordLengthFR
     );
 
     if (unguessedWords.length > 0) {
       // Cycle through the unguessed words
-      const hintWord = unguessedWords[hintIndex % unguessedWords.length];
-      const hintMessage = `Hint: The word starts with "${hintWord[0].toUpperCase()}"`;
+      const hintWord = unguessedWords[hintIndexFR % unguessedWords.length];
+      const hintMessage = `Indice : le mot commence par "${hintWord[0].toUpperCase()}"`;
       setMessage({ text: hintMessage, visible: true });
 
       // Hide the hint message after 10 seconds
@@ -446,11 +446,11 @@ function GameBoard() {
       setHintIndex((prevHintIndex) => prevHintIndex + 1);
 
       // Reset hintIndex if it exceeds the length of unguessedWords
-      if (hintIndex >= unguessedWords.length) {
+      if (hintIndexFR >= unguessedWords.length) {
         setHintIndex(0);
       }
     } else {
-      setMessage({ text: "Select a word length!", visible: true });
+      setMessage({ text: "Sélectionnez une longueur de mot !", visible: true });
       setTimeout(() => {
         setMessage({ text: "", visible: false });
       }, 5000); // 5000 milliseconds = 10 seconds
@@ -459,17 +459,17 @@ function GameBoard() {
 
   useEffect(() => {
     setGuessedWords([]);
-  }, [selectedWordLength]);
+  }, [selectedWordLengthFR]);
 
   useEffect(() => {
     setLetterSetStatus({});
     setUsedSets({});
-  }, [selectedWordLength]);
+  }, [selectedWordLengthFR]);
 
   const renderWordLengths = () => {
     const wordLengths = [3, 4, 5, 6, 7, 8];
     return wordLengths.map((length) => {
-      const found = guessedWords.some((wordObj) => wordObj.length === length);
+      const found = guessedWordsFR.some((wordObj) => wordObj.length === length);
       return (
         <div key={length} style={{ marginRight: "10px" }}>
           {length}-letter word: {found ? "Found" : "Not Found"}
@@ -512,7 +512,7 @@ function GameBoard() {
 
   return (
     <div className="gameBoardContainer">
-      {showWordCheck && <Modal />}
+      {showWordCheckFR && <Modal />}
       <div className="gameBoard">
         <div className="wordLengthSelection mobile-spacing">
           {[3, 4, 5, 6, 7, 8].map((length) => (
@@ -526,9 +526,9 @@ function GameBoard() {
                 width: "40px", // Set a fixed width
                 height: "40px", // Set a fixed height to match the width, adjust as needed
                 borderRadius: "50%", // This will make it a perfect circle
-                background: wonLevels.includes(length)
+                background: wonLevelsFR.includes(length)
                   ? "#2E8540"
-                  : selectedWordLength === length
+                  : selectedWordLengthFR === length
                   ? "#ff8c00"
                   : "#fff",
                 border: "1px solid #000",
@@ -545,18 +545,18 @@ function GameBoard() {
             </button>
           ))}
         </div>
-        {message.visible && (
-          <div className="messageContainer">{message.text}</div>
+        {messageFR.visible && (
+          <div className="messageContainer">{messageFR.text}</div>
         )}
         <div className="letterSetContainer">
-          {letterSets.map((set, index) => (
+          {letterSetsFR.map((set, index) => (
             <button
               key={index}
               onClick={() => handleLetterSetClick(set)}
               className={`letterSet ${
-                letterSetStatus[set] === "incorrect"
+                letterSetStatusFR[set] === "incorrect"
                   ? "incorrect"
-                  : letterSetStatus[set] === "correct"
+                  : letterSetStatusFR[set] === "correct"
                   ? "correct"
                   : ""
               }`}
@@ -569,11 +569,11 @@ function GameBoard() {
           <div className="inputContainer">
             <input
               type="text"
-              value={userInput}
+              value={userInputFR}
               onChange={(event) =>
                 setUserInput(event.target.value.toUpperCase())
               }
-              placeholder="Your word"
+              placeholder="Votre mot à trouver"
               className="inputStyle"
             />
             {/* Clear button right next to the input field */}
@@ -583,7 +583,7 @@ function GameBoard() {
               className="clearButton"
               aria-label="Clear text input"
             >
-              Clear
+              effacer
             </button>
           </div>
           <div className="buttonContainer">
@@ -593,15 +593,15 @@ function GameBoard() {
               className="buttonCommon hintButton"
               aria-label="Get a hint for the current word length"
             >
-              Hint
+              Indice
             </button>
             <button
               type="submit"
               class="buttonCommon submitButton"
-              disabled={gameOver}
+              disabled={gameOverFR}
               aria-label="Submit your answer"
             >
-              Submit
+              Valider
             </button>
           </div>
         </form>

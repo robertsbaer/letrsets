@@ -8,8 +8,10 @@ import {
   TwitterShareButton,
 } from "react-share";
 import "./ShareOptions.css";
+import translations from "./translations"; // Import the translations
 
-const ShareOptions = ({ url }) => {
+
+const ShareOptions = ({ url, language }) => {
   // Text to share
   const shareText = "I just won today's LetRsets!";
 
@@ -20,7 +22,7 @@ const ShareOptions = ({ url }) => {
 
   return (
     <div className="shareOptions">
-      <h3 className="shareText">Share the game</h3>
+      <h3 className="shareText">{translations[language].shareGame}</h3>
       <div className="buttonContainer">
         {/* Facebook Share Button */}
         <FacebookShareButton

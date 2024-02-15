@@ -112,12 +112,13 @@ scrollbar-width: none;  /* Firefox */
   }
 
   .modal {
-    padding: 18px; /* Reduce padding to create more space */
-    font-size: 15px; /* Slightly reduce the base font size for modal content */
-    overflow-y: auto; /* Ensure modal content is scrollable */
-    height: auto;
-    max-height: 100vh; /* Reduce max height to provide padding around the modal */
-    width: 100vw;
+    width: 100vw; /* Use most of the viewport width */
+    max-width:100vw; /* Specifically tailored to fit iPhone 11 Pro's width */
+    padding: 15px; /* Reduce padding to save space */
+    font-size: 18px; /* Adjust font size for better fit */
+    line-height: 1.2; /* Improve readability with adjusted line height */
+    overflow-y: auto; /* Ensure content can scroll if it overflows the modal's height */
+    max-height: 85vh; /* Limit the max height to 80% of the viewport height */
   }
 
   .modal p, .modal h3 {
@@ -142,6 +143,9 @@ scrollbar-width: none;  /* Firefox */
   /* Ensure that critical action items like close buttons are easily accessible */
   .close-button {
     padding: 5px 8px; /* Adjust padding for better touch targets */
+  }
+  .points {
+    font-size: 1.2rem!important;
   }
 }
 
