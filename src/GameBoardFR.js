@@ -113,8 +113,8 @@ function GameBoard() {
       const timeToNextMidnight = checkResetTime();
       if (timeToNextMidnight <= 60000) {
         // Remove specific items instead of clearing everything
-        localStorage.removeItem("gameState");
-        localStorage.removeItem("lastPlayedDate");
+        localStorage.removeItem("gameStateFR");
+        localStorage.removeItem("lastPlayedDateFR");
         initializeGame();
       }
     }, 60000); // every min
@@ -125,44 +125,44 @@ function GameBoard() {
   }, []);
 
   useEffect(() => {
-    const savedState = localStorage.getItem("gameState");
-    const lastPlayedDate = localStorage.getItem("lastPlayedDate");
+    const savedStateFR = localStorage.getItem("gameStateFR");
+    const lastPlayedDateFR = localStorage.getItem("lastPlayedDateFR");
     const today = new Date().toDateString();
 
-    if (lastPlayedDate !== today) {
+    if (lastPlayedDateFR !== today) {
       // Save points before clearing localStorage
-      const points = localStorage.getItem("points");
+      const pointsFR = localStorage.getItem("pointsFR");
 
       // Remove specific items instead of clearing everything
-      localStorage.removeItem("gameState");
-      localStorage.removeItem("lastPlayedDate");
+      localStorage.removeItem("gameStateFR");
+      localStorage.removeItem("lastPlayedDateFR");
 
       // Calculate and save points
-      const savedWonLevels =
-        JSON.parse(localStorage.getItem("wonLevels")) || [];
-      const allLevelsWon = [3, 4, 5, 6, 7, 8].every((length) =>
-        savedWonLevels.includes(length)
+      const savedWonLevelsFR =
+        JSON.parse(localStorage.getItem("wonLevelsFR")) || [];
+      const allLevelsWonFR = [3, 4, 5, 6, 7, 8].every((length) =>
+        savedWonLevelsFR.includes(length)
       );
-      const existingPoints = parseFloat(localStorage.getItem("points") || "0");
-      let newTotalPoints = existingPoints;
+      const existingPointsFR = parseFloat(localStorage.getItem("pointsFR") || "0");
+      let newTotalPointsFR = existingPointsFR;
 
-      if (allLevelsWon) {
-        newTotalPoints += 1; // Add 1 point if all levels are won
+      if (allLevelsWonFR) {
+        newTotalPointsFR += 1; // Add 1 point if all levels are won
       }
 
-      localStorage.setItem("points", newTotalPoints.toFixed(2));
+      localStorage.setItem("pointsFR", newTotalPointsFR.toFixed(2));
 
       // Restore points after clearing
-      if (points) {
+      if (pointsFR) {
         setTimeout(() => {
-          localStorage.setItem("points", points);
+          localStorage.setItem("pointsFR", pointsFR);
         }, 0);
       }
       initializeGame();
-      localStorage.setItem("lastPlayedDate", today);
-    } else if (savedState) {
+      localStorage.setItem("lastPlayedDateFR", today);
+    } else if (savedStateFR) {
       // It's still the same day, restore saved state
-      const state = JSON.parse(savedState);
+      const state = JSON.parse(savedStateFR);
       // ... rest of your code here ...
     } else {
       // If there is no savedState also initialize the game
@@ -171,7 +171,7 @@ function GameBoard() {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("wonLevels", JSON.stringify(wonLevelsFR));
+    localStorage.setItem("wonLevelsFR", JSON.stringify(wonLevelsFR));
   }, [wonLevelsFR]);
 
   const initializeGame = () => {
@@ -239,24 +239,24 @@ function GameBoard() {
 
   const isWordValid = (inputWord) => {
     // Get the current word
-    const currentWord = selectedWordsFR.find(
+    const currentWordFR = selectedWordsFR.find(
       (word) => word.length === selectedWordLengthFR
     );
 
     // Check if the input word matches the current word
-    return inputWord.toUpperCase() === currentWord.toUpperCase();
+    return inputWord.toUpperCase() === currentWordFR.toUpperCase();
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    let inputWord = userInputFR.toUpperCase();
+    let inputWordFR = userInputFR.toUpperCase();
 
     // Reset error or success message
     setMessage({ text: "", visible: false });
 
-    if (inputWord.length === selectedWordLengthFR) {
+    if (inputWordFR.length === selectedWordLengthFR) {
       const newLetterSetStatus = { ...letterSetStatusFR };
-      const inputLetterSets = extractLetterSets(inputWord).map((set) =>
+      const inputLetterSets = extractLetterSets(inputWordFR).map((set) =>
         set.toUpperCase()
       );
 
@@ -285,9 +285,9 @@ function GameBoard() {
       setLetterSetStatus(newLetterSetStatus);
 
       // Check if the entered word is correct
-      if (isWordValid(inputWord)) {
+      if (isWordValid(inputWordFR)) {
         // Update state of guessed words and the game overall
-        handleCorrectGuess(inputWord);
+        handleCorrectGuess(inputWordFR);
       } else {
         // Show incorrect attempt message
         setMessage({
@@ -320,30 +320,30 @@ function GameBoard() {
     };
   }, []);
 
-  const handleCorrectGuess = (inputWord) => {
-    const wordLength = inputWord.length;
+  const handleCorrectGuess = (inputWordFR) => {
+    const wordLengthFR = inputWordFR.length;
     if (
       !guessedWordsFR.some(
-        ({ word }) => word.toLowerCase() === inputWord.toLowerCase()
+        ({ word }) => word.toLowerCase() === inputWordFR.toLowerCase()
       )
     ) {
-      const newGuessedWords = [
+      const newGuessedWordsFR = [
         ...guessedWordsFR,
-        { word: inputWord, length: wordLength },
+        { word: inputWordFR, length: wordLengthFR },
       ];
-      setGuessedWords(newGuessedWords);
+      setGuessedWords(newGuessedWordsFR);
       setMessage({ text: "Correct!", visible: true });
       setTimeout(() => {
         setMessage({ text: "", visible: false });
       }, 4000); // Clear the message after 5 seconds
 
       // Add to won levels if not already included
-      if (!wonLevelsFR.includes(wordLength)) {
-        setWonLevels([...wonLevelsFR, wordLength]);
+      if (!wonLevelsFR.includes(wordLengthFR)) {
+        setWonLevels([...wonLevelsFR, wordLengthFR]);
       }
 
       // Check if all words have been guessed
-      checkGameCompletion(newGuessedWords);
+      checkGameCompletion(newGuessedWordsFR);
     } else {
       setMessage({
         text: "Vous avez déjà essayé ce mot.",
@@ -355,8 +355,8 @@ function GameBoard() {
     }
   };
 
-  const checkGameCompletion = (newGuessedWords) => {
-    if (newGuessedWords.length === selectedWordsFR.length) {
+  const checkGameCompletion = (newGuessedWordsFR) => {
+    if (newGuessedWordsFR.length === selectedWordsFR.length) {
       setMessage({
         text: "Félicitations! Vous avez trouvé tous les mots.",
         visible: true,
@@ -385,11 +385,11 @@ function GameBoard() {
   };
 
   useEffect(() => {
-    const allLevelsWon = [3, 4, 5, 6, 7, 8].every((length) =>
+    const allLevelsWonFR = [3, 4, 5, 6, 7, 8].every((length) =>
       wonLevelsFR.includes(length)
     );
   
-    if (allLevelsWon && selectedWordsFR.length && !gameOverFR) {
+    if (allLevelsWonFR && selectedWordsFR.length && !gameOverFR) {
       setGameOver(true);
       setMessage({
         text: "Félicitations! Revenez demain pour un autre jeu",
@@ -401,23 +401,23 @@ function GameBoard() {
     }
   
     if (gameOverFR && !pointsUpdatedFR && gamePlayedFR) {
-      const existingPoints = parseFloat(localStorage.getItem("points") || "0");
-      let newTotalPoints;
+      const existingPointsFR = parseFloat(localStorage.getItem("pointsFR") || "0");
+      let newTotalPointsFR;
   
-      if (allLevelsWon) {
-        newTotalPoints = existingPoints + 1; // Add 1 point if all levels are won
+      if (allLevelsWonFR) {
+        newTotalPointsFR = existingPointsFR + 1; // Add 1 point if all levels are won
       } else {
         const levelsFailed = [3, 4, 5, 6, 7, 8].filter(
           (length) => !wonLevelsFR.includes(length)
         ).length;
-        newTotalPoints = existingPoints - levelsFailed / 6; // Deduct 1/6th point for each level failed
+        newTotalPointsFR = existingPointsFR - levelsFailed / 6; // Deduct 1/6th point for each level failed
       }
   
-      localStorage.setItem("points", newTotalPoints.toFixed(2));
+      localStorage.setItem("pointsFR", newTotalPointsFR.toFixed(2));
       setPointsUpdated(true); // Set pointsUpdated to true after updating the points
   
       window.dispatchEvent(
-        new CustomEvent("pointsUpdated", { detail: { points: newTotalPoints } })
+        new CustomEvent("pointsUpdatedFR", { detail: { pointsFR: newTotalPointsFR } })
       );
     }
   }, [wonLevelsFR, selectedWordsFR.length, gameOverFR, pointsUpdatedFR, gamePlayedFR]);

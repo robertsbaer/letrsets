@@ -76,13 +76,13 @@ function NavBar({ toggleGameBoards }) {
             style={{ borderRadius: 50 }}
           />
         </button>
-        <button
+        {/* <button
           onClick={toggleModal("sharePoints")}
           className="instruction-button"
           aria-label="Open share modal for points"
         >
           <FaMedal />
-        </button>
+        </button> */}
         <button
           onClick={toggleModal("share")}
           className="instruction-button"
@@ -154,7 +154,7 @@ function NavBar({ toggleGameBoards }) {
           <div className="points-container">
             <FaMedal className="medal-icon" />
             <p className="points">
-              In English{translations["en"].youveWon}{" "}
+              In English {translations["en"].youveWon}{" "}
               <span className="emphasize">{points}</span>{" "}
               {translations["en"].game}
             </p>
@@ -162,7 +162,7 @@ function NavBar({ toggleGameBoards }) {
           <div className="points-container">
             <FaMedal className="medal-icon" />
             <p className="points">
-              En Français{translations["fr"].youveWon}{" "}
+              En Français {translations["fr"].youveWon}{" "}
               <span className="emphasize">{pointsFR}</span>{" "}
               {translations["fr"].game}
             </p>
