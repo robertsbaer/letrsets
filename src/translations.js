@@ -43,7 +43,30 @@ const translations = {
       youveWon: "Vous avez gagné",
       game: "jeux",
       shareGame: "Partagez le jeu"
-    }
+    },
+    es: {
+        howToPlay: "Cómo jugar",
+        tapLanguage: "Toca el idioma con el que quieres jugar",
+        guessWord: "Adivina la palabra en cada longitud de palabra",
+        selectWordLength: "Selecciona primero una longitud de palabra",
+        guessTheWord: "Adivina la palabra",
+        oneCorrectAnswer: "Solo 1 respuesta correcta por longitud de palabra",
+        hint: "Pista:",
+        singleLetterSets: "- Los conjuntos de una sola letra están al final de tu palabra",
+        useSetOnce: "- En cada longitud de palabra puedes usar un conjunto solo una vez",
+        examples: "Ejemplos",
+        theWordIs: "- La palabra de 4 letras a encontrar es GATO",
+        tapThen: "- Toca \"GA\" luego \"TO\"",
+        pressSubmit: "- Presiona enviar",
+        wrongAnswers: "Respuestas incorrectas",
+        correctGreen: "- Los conjuntos correctos serán Verdes",
+        incorrectRed: "- Los conjuntos incorrectos serán rojos",
+        newPuzzle: "Un nuevo rompecabezas está disponible a medianoche",
+        youveWon: "Has ganado",
+        game: "juego",
+        shareGame: "Comparte el juego"
+      }
+      
   };
   export default translations;
   

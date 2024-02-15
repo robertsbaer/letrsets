@@ -16,6 +16,9 @@ function NavBar({ toggleGameBoards }) {
   const [pointsFR, setPointsFR] = useState(() =>
     Math.floor(localStorage.getItem("pointsFR") || 0)
   );
+  const [pointsES, setPointsES] = useState(() =>
+    Math.floor(localStorage.getItem("pointsES") || 0)
+  );
   const [language, setLanguage] = useState("en"); // Initial language set to English
 
   useEffect(() => {
@@ -29,6 +32,11 @@ function NavBar({ toggleGameBoards }) {
       setPointsFR(updatedPointsFR);
     };
 
+    const handleStorageChangeES = () => {
+      const updatedPointsES = Math.floor(localStorage.getItem("pointsES") || 0);
+      setPointsES(updatedPointsES);
+    };
+
     const handlePointsUpdated = (event) => {
       setPoints(Math.floor(event.detail.points));
     };
@@ -37,15 +45,26 @@ function NavBar({ toggleGameBoards }) {
       setPointsFR(Math.floor(event.detail.pointsFR));
     };
 
+    const handlePointsUpdatedES = (event) => {
+      setPointsES(Math.floor(event.detail.pointsES));
+    };
+
     window.addEventListener("storage", handleStorageChange);
     window.addEventListener("pointsUpdated", handlePointsUpdated);
 
     window.addEventListener("storageFR", handleStorageChangeFR);
-    window.addEventListener("pointsUpdatedFr", handlePointsUpdatedFR);
+    window.addEventListener("pointsUpdatedFR", handlePointsUpdatedFR);
+
+    window.addEventListener("storageES", handleStorageChangeES);
+    window.addEventListener("pointsUpdatedES", handlePointsUpdatedES);
 
     return () => {
       window.removeEventListener("storage", handleStorageChange);
       window.removeEventListener("pointsUpdated", handlePointsUpdated);
+      window.removeEventListener("storageFR", handleStorageChangeFR);
+      window.removeEventListener("pointsUpdatedFR", handlePointsUpdatedFR);
+      window.removeEventListener("storageES", handleStorageChangeES);
+      window.removeEventListener("pointsUpdatedES", handlePointsUpdatedES);
     };
   }, []);
 
@@ -54,11 +73,22 @@ function NavBar({ toggleGameBoards }) {
   };
 
   const handleToggleGameBoards = () => {
-    setFlagCountry((prevCountry) => (prevCountry === "GB" ? "FR" : "GB"));
-    setLanguage((prevLanguage) => (prevLanguage === "en" ? "fr" : "en")); // Toggle language
+    setFlagCountry(prevCountry => {
+        // Cycle through GB, FR, and ES
+        if (prevCountry === "GB") return "FR";
+        if (prevCountry === "FR") return "ES";
+        return "GB"; // Default back to GB if it's ES
+    });
+    setLanguage(prevLanguage => {
+        // Toggle language among English, French, and Spanish
+        if (prevLanguage === "en") return "fr";
+        if (prevLanguage === "fr") return "es";
+        return "en"; // Default back to English if it's Spanish
+    });
 
     toggleGameBoards();
-  };
+};
+
 
   return (
     <div className="NavBar">
@@ -164,6 +194,14 @@ function NavBar({ toggleGameBoards }) {
             <p className="points">
               En Français {translations["fr"].youveWon}{" "}
               <span className="emphasize">{pointsFR}</span>{" "}
+              {translations["fr"].game}
+            </p>
+          </div>
+          <div className="points-container">
+            <FaMedal className="medal-icon" />
+            <p className="points">
+              En Français {translations["fr"].youveWon}{" "}
+              <span className="emphasize">{pointsES}</span>{" "}
               {translations["fr"].game}
             </p>
           </div>
