@@ -68,6 +68,16 @@ function NavBar({ toggleGameBoards }) {
     };
   }, []);
 
+  useEffect(() => {
+    const points = Math.floor(localStorage.getItem("points") || 0);
+    const pointsFR = Math.floor(localStorage.getItem("pointsFR") || 0);
+    const pointsES = Math.floor(localStorage.getItem("pointsES") || 0);
+
+    setPoints(points);
+    setPointsFR(pointsFR);
+    setPointsES(pointsES);
+  }, []);
+
   const toggleModal = (type) => () => {
     setModalType(modalType === type ? null : type);
   };
@@ -106,13 +116,13 @@ function NavBar({ toggleGameBoards }) {
             style={{ borderRadius: 50 }}
           />
         </button>
-        {/* <button
+        <button
           onClick={toggleModal("sharePoints")}
           className="instruction-button"
           aria-label="Open share modal for points"
         >
           <FaMedal />
-        </button> */}
+        </button>
         <button
           onClick={toggleModal("share")}
           className="instruction-button"
@@ -200,9 +210,9 @@ function NavBar({ toggleGameBoards }) {
           <div className="points-container">
             <FaMedal className="medal-icon" />
             <p className="points">
-              En Français {translations["fr"].youveWon}{" "}
+              En español {translations["es"].youveWon}{" "}
               <span className="emphasize">{pointsES}</span>{" "}
-              {translations["fr"].game}
+              {translations["es"].game}
             </p>
           </div>
         </div>

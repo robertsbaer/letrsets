@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./GameBoard.css";
 import wordsList from "./words.json";
-import wordsForGameES from "./words_for_game_es.json";
+import wordsForGame from "./words_for_game_es.json";
 
-function GameBoardES() {
+function GameBoard() {
   const [userInputES, setUserInput] = useState("");
   const [guessedWordsES, setGuessedWords] = useState([]);
   const [letterSetsES, setLetterSets] = useState([]);
@@ -25,21 +25,17 @@ function GameBoardES() {
     const savedStateES = localStorage.getItem("gameStateES");
     const lastPlayedDateES = localStorage.getItem("lastPlayedDateES");
     const today = new Date().toDateString();
-
+  
     if (lastPlayedDateES !== today) {
-      // Save points before clearing localStorage
       const pointsES = localStorage.getItem("pointsES");
-
-      localStorage.clear();
-
-      // Restore points after clearing
+      localStorage.removeItem("gameStateES");
+      localStorage.removeItem("lastPlayedDateES");
       if (pointsES) {
         localStorage.setItem("pointsES", pointsES);
       }
       initializeGame();
       localStorage.setItem("lastPlayedDateES", today);
     } else if (savedStateES) {
-      // It's still the same day, restore saved state
       const state = JSON.parse(savedStateES);
       setUserInput(state.userInputES);
       setGuessedWords(state.guessedWordsES);
@@ -56,7 +52,6 @@ function GameBoardES() {
       setUsedSets(state.usedSetsES);
       setIsInitialized(true);
     } else {
-      // If there is no savedState also initialize the game
       initializeGame();
     }
   }, []);
@@ -133,7 +128,7 @@ function GameBoardES() {
       // Save points before clearing localStorage
       const pointsES = localStorage.getItem("pointsES");
 
-      // Remove specific items instead of clearing everything
+      // Remove specific items instead of clearing everything 
       localStorage.removeItem("gameStateES");
       localStorage.removeItem("lastPlayedDateES");
 
@@ -183,7 +178,7 @@ function GameBoardES() {
     const todayKey = `${year}-${month}-${day}`;
 
     // Get the words for today from the JSON file
-    const wordsForToday = wordsForGameES[todayKey];
+    const wordsForToday = wordsForGame[todayKey];
 
     // If there are no words for today, you might want to handle this case differently
     if (!wordsForToday) {
@@ -291,7 +286,7 @@ function GameBoardES() {
       } else {
         // Show incorrect attempt message
         setMessage({
-          text: "Falso. ¡Inténtalo de nuevo!",
+          text: "Faux. Essayez à nouveau!",
           visible: true,
         });
         setTimeout(() => {
@@ -301,7 +296,7 @@ function GameBoardES() {
     } else {
       // Show message if word length does not match
       setMessage({
-        text: "La longitud de la palabra ingresada no corresponde a la seleccionada.",
+        text: "La longueur du mot saisi ne correspond pas à celle sélectionnée.",
         visible: true,
       });
       setTimeout(() => {
@@ -332,7 +327,7 @@ function GameBoardES() {
         { word: inputWordES, length: wordLengthES },
       ];
       setGuessedWords(newGuessedWordsES);
-      setMessage({ text: "Correcto!", visible: true });
+      setMessage({ text: "Correct!", visible: true });
       setTimeout(() => {
         setMessage({ text: "", visible: false });
       }, 4000); // Clear the message after 5 seconds
@@ -346,7 +341,7 @@ function GameBoardES() {
       checkGameCompletion(newGuessedWordsES);
     } else {
       setMessage({
-        text: "Ya has intentado esta palabra",
+        text: "Vous avez déjà essayé ce mot.",
         visible: true,
       });
       setTimeout(() => {
@@ -358,7 +353,7 @@ function GameBoardES() {
   const checkGameCompletion = (newGuessedWordsES) => {
     if (newGuessedWordsES.length === selectedWordsES.length) {
       setMessage({
-        text: "¡Felicidades! Has encontrado todas las palabras.",
+        text: "Félicitations! Vous avez trouvé tous les mots.",
         visible: true,
       });
       setGameOver(true);
@@ -369,7 +364,7 @@ function GameBoardES() {
     if (set.length === 1 && userInputES.length === 0) {
       // If the set has a single letter and it is the user's first selection
       setMessage({
-        text: "Las letras individuales se encuentran al final de la palabra",
+        text: "Les lettres individuelles se trouvent à la fin du mot.",
         visible: true,
       });
       // Optionally, you can decide if you want to clear this message after some time
@@ -392,7 +387,7 @@ function GameBoardES() {
     if (allLevelsWonES && selectedWordsES.length && !gameOverES) {
       setGameOver(true);
       setMessage({
-        text: "¡Felicidades! Vuelve mañana para otro juego",
+        text: "Félicitations! Revenez demain pour un autre jeu",
         visible: true,
       });
       setTimeout(() => {
@@ -434,7 +429,7 @@ function GameBoardES() {
     if (unguessedWords.length > 0) {
       // Cycle through the unguessed words
       const hintWord = unguessedWords[hintIndexES % unguessedWords.length];
-      const hintMessage = `Pista: la palabra comienza con "${hintWord[0].toUpperCase()}"`;
+      const hintMessage = `Indice : le mot commence par "${hintWord[0].toUpperCase()}"`;
       setMessage({ text: hintMessage, visible: true });
 
       // Hide the hint message after 10 seconds
@@ -450,7 +445,7 @@ function GameBoardES() {
         setHintIndex(0);
       }
     } else {
-      setMessage({ text: "¡Seleccione una longitud de palabra!", visible: true });
+      setMessage({ text: "Sélectionnez une longueur de mot !", visible: true });
       setTimeout(() => {
         setMessage({ text: "", visible: false });
       }, 5000); // 5000 milliseconds = 10 seconds
@@ -551,16 +546,16 @@ function GameBoardES() {
         <div className="letterSetContainer">
           {letterSetsES.map((set, index) => (
             <button
-            key={index}
-            onClick={() => handleLetterSetClick(set)}
-            className={`letterSet ${
-              letterSetStatusES[set] === "incorrect"
-                ? "incorrect"
-                : letterSetStatusES[set] === "correct"
-                ? "correct"
-                : ""
-            }`}
-          >
+              key={index}
+              onClick={() => handleLetterSetClick(set)}
+              className={`letterSet ${
+                letterSetStatusES[set] === "incorrect"
+                  ? "incorrect"
+                  : letterSetStatusES[set] === "correct"
+                  ? "correct"
+                  : ""
+              }`}
+            >
               {set}
             </button>
           ))}
@@ -573,7 +568,7 @@ function GameBoardES() {
               onChange={(event) =>
                 setUserInput(event.target.value.toUpperCase())
               }
-              placeholder="Su palabra a encontrar"
+              placeholder="Votre mot à trouver"
               className="inputStyle"
             />
             {/* Clear button right next to the input field */}
@@ -583,7 +578,7 @@ function GameBoardES() {
               className="clearButton"
               aria-label="Clear text input"
             >
-              borrar
+              effacer
             </button>
           </div>
           <div className="buttonContainer">
@@ -593,7 +588,7 @@ function GameBoardES() {
               className="buttonCommon hintButton"
               aria-label="Get a hint for the current word length"
             >
-              Índice
+              Indice
             </button>
             <button
               type="submit"
@@ -601,7 +596,7 @@ function GameBoardES() {
               disabled={gameOverES}
               aria-label="Submit your answer"
             >
-              Enviar
+              Valider
             </button>
           </div>
         </form>
@@ -610,4 +605,4 @@ function GameBoardES() {
   );
 }
 
-export default GameBoardES;
+export default GameBoard;

@@ -25,21 +25,17 @@ function GameBoard() {
     const savedState = localStorage.getItem("gameState");
     const lastPlayedDate = localStorage.getItem("lastPlayedDate");
     const today = new Date().toDateString();
-
+  
     if (lastPlayedDate !== today) {
-      // Save points before clearing localStorage
       const points = localStorage.getItem("points");
-
-      localStorage.clear();
-
-      // Restore points after clearing
+      localStorage.removeItem("gameState");
+      localStorage.removeItem("lastPlayedDate");
       if (points) {
         localStorage.setItem("points", points);
       }
       initializeGame();
       localStorage.setItem("lastPlayedDate", today);
     } else if (savedState) {
-      // It's still the same day, restore saved state
       const state = JSON.parse(savedState);
       setUserInput(state.userInput);
       setGuessedWords(state.guessedWords);
@@ -56,7 +52,6 @@ function GameBoard() {
       setUsedSets(state.usedSets);
       setIsInitialized(true);
     } else {
-      // If there is no savedState also initialize the game
       initializeGame();
     }
   }, []);
@@ -130,7 +125,7 @@ function GameBoard() {
     const today = new Date().toDateString();
 
     if (lastPlayedDate !== today) {
-      // Save points before clearing localStorage
+      // Save points before clearing localStorage 
       const points = localStorage.getItem("points");
 
       // Remove specific items instead of clearing everything
