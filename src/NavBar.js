@@ -21,7 +21,9 @@ function NavBar({ toggleGameBoards }) {
   const [pointsES, setPointsES] = useState(() =>
     Math.floor(localStorage.getItem("pointsES") || 0)
   );
-  const [language, setLanguage] = useState("en"); // Initial language set to English
+  const [language, setLanguage] = useState(
+    localStorage.getItem("translationLanguage") || "en"
+  ); // Initial language set to English
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -90,12 +92,11 @@ function NavBar({ toggleGameBoards }) {
       localStorage.setItem("flagCountry", newCountry);
       return newCountry;
   });
-    setLanguage(prevLanguage => {
-        // Toggle language among English, French, and Spanish
-        if (prevLanguage === "en") return "fr";
-        if (prevLanguage === "fr") return "es";
-        return "en"; // Default back to English if it's Spanish
-    });
+  setLanguage(prevLanguage => {
+    const newLanguage = prevLanguage === "en" ? "fr" : prevLanguage === "fr" ? "es" : "en";
+    localStorage.setItem("translationLanguage", newLanguage);
+    return newLanguage;
+});
 
     toggleGameBoards();
 };
