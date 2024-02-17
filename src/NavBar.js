@@ -9,7 +9,9 @@ import ShareOptions from "./ShareOptions.js";
 
 function NavBar({ toggleGameBoards }) {
   const [modalType, setModalType] = useState(null); // Handles which modal is currently open: null, 'share', 'sharePoints', 'help'
-  const [flagCountry, setFlagCountry] = useState("GB");
+  const [flagCountry, setFlagCountry] = useState(
+    localStorage.getItem("flagCountry") || "GB"
+  );
   const [points, setPoints] = useState(() =>
     Math.floor(localStorage.getItem("points") || 0)
   );
@@ -84,11 +86,10 @@ function NavBar({ toggleGameBoards }) {
 
   const handleToggleGameBoards = () => {
     setFlagCountry(prevCountry => {
-        // Cycle through GB, FR, and ES
-        if (prevCountry === "GB") return "FR";
-        if (prevCountry === "FR") return "ES";
-        return "GB"; // Default back to GB if it's ES
-    });
+      const newCountry = prevCountry === "GB" ? "FR" : prevCountry === "FR" ? "ES" : "GB";
+      localStorage.setItem("flagCountry", newCountry);
+      return newCountry;
+  });
     setLanguage(prevLanguage => {
         // Toggle language among English, French, and Spanish
         if (prevLanguage === "en") return "fr";

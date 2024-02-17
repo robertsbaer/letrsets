@@ -286,7 +286,7 @@ function GameBoard() {
       } else {
         // Show incorrect attempt message
         setMessage({
-          text: "Faux. Essayez à nouveau!",
+          text: "Falso. ¡Intente de nuevo!",
           visible: true,
         });
         setTimeout(() => {
@@ -296,7 +296,7 @@ function GameBoard() {
     } else {
       // Show message if word length does not match
       setMessage({
-        text: "La longueur du mot saisi ne correspond pas à celle sélectionnée.",
+        text: "La longitud de la palabra introducida no coincide con la seleccionada.",
         visible: true,
       });
       setTimeout(() => {
@@ -327,7 +327,7 @@ function GameBoard() {
         { word: inputWordES, length: wordLengthES },
       ];
       setGuessedWords(newGuessedWordsES);
-      setMessage({ text: "Correct!", visible: true });
+      setMessage({ text: "Correcto!", visible: true });
       setTimeout(() => {
         setMessage({ text: "", visible: false });
       }, 4000); // Clear the message after 5 seconds
@@ -341,7 +341,7 @@ function GameBoard() {
       checkGameCompletion(newGuessedWordsES);
     } else {
       setMessage({
-        text: "Vous avez déjà essayé ce mot.",
+        text: "Ya has intentado esta palabra.",
         visible: true,
       });
       setTimeout(() => {
@@ -353,7 +353,7 @@ function GameBoard() {
   const checkGameCompletion = (newGuessedWordsES) => {
     if (newGuessedWordsES.length === selectedWordsES.length) {
       setMessage({
-        text: "Félicitations! Vous avez trouvé tous les mots.",
+        text: "¡Felicidades! Has encontrado todas las palabras.",
         visible: true,
       });
       setGameOver(true);
@@ -364,7 +364,7 @@ function GameBoard() {
     if (set.length === 1 && userInputES.length === 0) {
       // If the set has a single letter and it is the user's first selection
       setMessage({
-        text: "Les lettres individuelles se trouvent à la fin du mot.",
+        text: "Las letras individuales se encuentran al final de la palabra.",
         visible: true,
       });
       // Optionally, you can decide if you want to clear this message after some time
@@ -387,7 +387,7 @@ function GameBoard() {
     if (allLevelsWonES && selectedWordsES.length && !gameOverES) {
       setGameOver(true);
       setMessage({
-        text: "Félicitations! Revenez demain pour un autre jeu",
+        text: "¡Felicidades! Vuelve mañana para otro juego.",
         visible: true,
       });
       setTimeout(() => {
@@ -429,7 +429,7 @@ function GameBoard() {
     if (unguessedWords.length > 0) {
       // Cycle through the unguessed words
       const hintWord = unguessedWords[hintIndexES % unguessedWords.length];
-      const hintMessage = `Indice : le mot commence par "${hintWord[0].toUpperCase()}"`;
+      const hintMessage = `Pista: la palabra comienza por "${hintWord[0].toUpperCase()}"`;
       setMessage({ text: hintMessage, visible: true });
 
       // Hide the hint message after 10 seconds
@@ -445,7 +445,7 @@ function GameBoard() {
         setHintIndex(0);
       }
     } else {
-      setMessage({ text: "Sélectionnez une longueur de mot !", visible: true });
+      setMessage({ text: "¡Seleccione una longitud de palabra!", visible: true });
       setTimeout(() => {
         setMessage({ text: "", visible: false });
       }, 5000); // 5000 milliseconds = 10 seconds
@@ -568,7 +568,7 @@ function GameBoard() {
               onChange={(event) =>
                 setUserInput(event.target.value.toUpperCase())
               }
-              placeholder="Votre mot à trouver"
+              placeholder="Tu palabra a encontrar"
               className="inputStyle"
             />
             {/* Clear button right next to the input field */}
@@ -578,7 +578,7 @@ function GameBoard() {
               className="clearButton"
               aria-label="Clear text input"
             >
-              effacer
+              borrar
             </button>
           </div>
           <div className="buttonContainer">
@@ -588,7 +588,7 @@ function GameBoard() {
               className="buttonCommon hintButton"
               aria-label="Get a hint for the current word length"
             >
-              Indice
+              Pista
             </button>
             <button
               type="submit"
@@ -596,7 +596,7 @@ function GameBoard() {
               disabled={gameOverES}
               aria-label="Submit your answer"
             >
-              Valider
+              Validar
             </button>
           </div>
         </form>
