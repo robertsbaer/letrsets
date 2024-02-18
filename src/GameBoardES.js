@@ -176,6 +176,8 @@ function GameBoard() {
     const month = String(today.getMonth() + 1).padStart(2, "0"); // JS months are 0-indexed
     const day = String(today.getDate()).padStart(2, "0");
     const todayKey = `${year}-${month}-${day}`;
+    localStorage.setItem("pointsUpdated", "false");
+
 
     // Get the words for today from the JSON file
     const wordsForToday = wordsForGame[todayKey];
@@ -395,7 +397,7 @@ function GameBoard() {
       }, 5000);
     }
   
-    if (gameOverES && !pointsUpdatedES && gamePlayedES) {
+    if (gameOverES && localStorage.getItem("pointsUpdated") === "false" && gamePlayedES) {
       const existingPointsES = parseFloat(localStorage.getItem("pointsES") || "0");
       let newTotalPointsES;
   
@@ -409,6 +411,8 @@ function GameBoard() {
       }
   
       localStorage.setItem("pointsES", newTotalPointsES.toFixed(2));
+      localStorage.setItem("pointsUpdated", "true"); // Set pointsUpdated to true after updating the points
+
       setPointsUpdated(true); // Set pointsUpdated to true after updating the points
   
       window.dispatchEvent(

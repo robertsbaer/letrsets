@@ -65,7 +65,29 @@ const translations = {
         youveWon: "Has ganado",
         game: "juego",
         shareGame: "Comparte el juego"
-      }
+      },
+      pt: {
+        howToPlay: "Como Jogar",
+        tapLanguage: "Toque no idioma que deseja jogar",
+        guessWord: "Adivinhe a palavra em cada comprimento de palavra",
+        selectWordLength: "Selecione primeiro um comprimento de palavra",
+        guessTheWord: "Adivinhe a palavra",
+        oneCorrectAnswer: "Apenas 1 resposta correta por comprimento de palavra",
+        hint: "Dica:",
+        singleLetterSets: "- Conjuntos de uma única letra estão no final da sua palavra",
+        useSetOnce: "- Em cada comprimento de palavra, você pode usar um conjunto apenas uma vez",
+        examples: "Exemplos",
+        theWordIs: "- A palavra de 3 letras a encontrar é GATO",
+        tapThen: "- Toque em \"GA\" e depois em \"TO\"",
+        pressSubmit: "- Pressione enviar",
+        wrongAnswers: "Respostas erradas",
+        correctGreen: "- Conjuntos corretos serão Verdes",
+        incorrectRed: "- Conjuntos incorretos serão vermelhos",
+        newPuzzle: "Um novo puzzle está disponível à meia-noite",
+        youveWon: "Você ganhou",
+        game: "jogo",
+        shareGame: "Compartilhe o jogo"
+    },
       
   };
   export default translations;

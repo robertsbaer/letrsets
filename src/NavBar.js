@@ -21,6 +21,9 @@ function NavBar({ toggleGameBoards }) {
   const [pointsES, setPointsES] = useState(() =>
     Math.floor(localStorage.getItem("pointsES") || 0)
   );
+  const [pointsPT, setPointsPT] = useState(() =>
+    Math.floor(localStorage.getItem("pointsPT") || 0)
+  );
   const [language, setLanguage] = useState(
     localStorage.getItem("translationLanguage") || "en"
   ); // Initial language set to English
@@ -41,6 +44,11 @@ function NavBar({ toggleGameBoards }) {
       setPointsES(updatedPointsES);
     };
 
+    const handleStorageChangePT = () => {
+      const updatedPointsPT = Math.floor(localStorage.getItem("pointsPT") || 0);
+      setPointsPT(updatedPointsPT);
+    };
+
     const handlePointsUpdated = (event) => {
       setPoints(Math.floor(event.detail.points));
     };
@@ -53,6 +61,10 @@ function NavBar({ toggleGameBoards }) {
       setPointsES(Math.floor(event.detail.pointsES));
     };
 
+    const handlePointsUpdatedPT = (event) => {
+      setPointsPT(Math.floor(event.detail.pointsPT));
+    };
+
     window.addEventListener("storage", handleStorageChange);
     window.addEventListener("pointsUpdated", handlePointsUpdated);
 
@@ -62,6 +74,9 @@ function NavBar({ toggleGameBoards }) {
     window.addEventListener("storageES", handleStorageChangeES);
     window.addEventListener("pointsUpdatedES", handlePointsUpdatedES);
 
+    window.addEventListener("storagePT", handleStorageChangePT);
+    window.addEventListener("pointsUpdatedPT", handlePointsUpdatedPT);
+
     return () => {
       window.removeEventListener("storage", handleStorageChange);
       window.removeEventListener("pointsUpdated", handlePointsUpdated);
@@ -69,6 +84,8 @@ function NavBar({ toggleGameBoards }) {
       window.removeEventListener("pointsUpdatedFR", handlePointsUpdatedFR);
       window.removeEventListener("storageES", handleStorageChangeES);
       window.removeEventListener("pointsUpdatedES", handlePointsUpdatedES);
+      window.removeEventListener("storagePT", handleStorageChangePT);
+      window.removeEventListener("pointsUpdatedPT", handlePointsUpdatedPT);
     };
   }, []);
 
@@ -76,10 +93,12 @@ function NavBar({ toggleGameBoards }) {
     const points = Math.floor(localStorage.getItem("points") || 0);
     const pointsFR = Math.floor(localStorage.getItem("pointsFR") || 0);
     const pointsES = Math.floor(localStorage.getItem("pointsES") || 0);
+    const pointsPT = Math.floor(localStorage.getItem("pointsPT") || 0);
 
     setPoints(points);
     setPointsFR(pointsFR);
     setPointsES(pointsES);
+    setPointsPT(pointsPT);
   }, []);
 
   const toggleModal = (type) => () => {
@@ -88,18 +107,25 @@ function NavBar({ toggleGameBoards }) {
 
   const handleToggleGameBoards = () => {
     setFlagCountry(prevCountry => {
-      const newCountry = prevCountry === "GB" ? "FR" : prevCountry === "FR" ? "ES" : "GB";
-      localStorage.setItem("flagCountry", newCountry);
-      return newCountry;
-  });
-  setLanguage(prevLanguage => {
-    const newLanguage = prevLanguage === "en" ? "fr" : prevLanguage === "fr" ? "es" : "en";
-    localStorage.setItem("translationLanguage", newLanguage);
-    return newLanguage;
-});
+        // Toggle country flag among Great Britain, France, Spain, and Portugal
+        const newCountry = prevCountry === "GB" ? "FR" : 
+                           prevCountry === "FR" ? "ES" : 
+                           prevCountry === "ES" ? "PT" : "GB";
+        localStorage.setItem("flagCountry", newCountry);
+        return newCountry;
+    });
+
+    setLanguage(prevLanguage => {
+        // Toggle language among English, French, Spanish, and Portuguese
+        if (prevLanguage === "en") return "fr";
+        if (prevLanguage === "fr") return "es";
+        if (prevLanguage === "es") return "pt";
+        return "en"; // Default back to English if it's Portuguese
+    });
 
     toggleGameBoards();
 };
+
 
 
   return (
@@ -215,6 +241,14 @@ function NavBar({ toggleGameBoards }) {
               En español {translations["es"].youveWon}{" "}
               <span className="emphasize">{pointsES}</span>{" "}
               {translations["es"].game}
+            </p>
+          </div>
+          <div className="points-container">
+            <FaMedal className="medal-icon" />
+            <p className="points">
+              En Potuguese {translations["pt"].youveWon}{" "}
+              <span className="emphasize">{pointsPT}</span>{" "}
+              {translations["pt"].game}
             </p>
           </div>
         </div>
