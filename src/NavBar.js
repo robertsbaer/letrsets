@@ -9,9 +9,8 @@ import ShareOptions from "./ShareOptions.js";
 
 function NavBar({ toggleGameBoards }) {
   const [modalType, setModalType] = useState(null); // Handles which modal is currently open: null, 'share', 'sharePoints', 'help'
-  const [flagCountry, setFlagCountry] = useState(
-    localStorage.getItem("flagCountry") || "GB"
-  );
+  const [flagCountry, setFlagCountry] = useState("GB");
+
   const [points, setPoints] = useState(() =>
     Math.floor(localStorage.getItem("points") || 0)
   );

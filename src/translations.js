@@ -77,7 +77,7 @@ const translations = {
         singleLetterSets: "- Conjuntos de uma única letra estão no final da sua palavra",
         useSetOnce: "- Em cada comprimento de palavra, você pode usar um conjunto apenas uma vez",
         examples: "Exemplos",
-        theWordIs: "- A palavra de 3 letras a encontrar é GATO",
+        theWordIs: "- A palavra de 4 letras a encontrar é GATO",
         tapThen: "- Toque em \"GA\" e depois em \"TO\"",
         pressSubmit: "- Pressione enviar",
         wrongAnswers: "Respostas erradas",

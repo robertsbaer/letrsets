@@ -3,6 +3,7 @@ import "./GameBoard.css";
 import wordsList from "./words.json";
 import wordsForGame from "./words_for_game_en.json";
 
+
 function GameBoard() {
   const [userInput, setUserInput] = useState("");
   const [guessedWords, setGuessedWords] = useState([]);
@@ -332,7 +333,7 @@ function GameBoard() {
       setMessage({ text: "Correct!", visible: true });
       setTimeout(() => {
         setMessage({ text: "", visible: false });
-      }, 4000); // Clear the message after 5 seconds
+      }, 2000); // Clear the message after 5 seconds
 
       // Add to won levels if not already included
       if (!wonLevels.includes(wordLength)) {
@@ -397,24 +398,17 @@ function GameBoard() {
       }, 5000);
     }
   
-    if (gameOver && localStorage.getItem("pointsUpdated") === "false" && gamePlayed) {
+    if (gameOver && gamePlayed) {
       const existingPoints = parseFloat(localStorage.getItem("points") || "0");
       let newTotalPoints;
-  
-      if (allLevelsWon) {
-        newTotalPoints = existingPoints + 1; // Add 1 point if all levels are won
-      } else {
-        const levelsFailed = [3, 4, 5, 6, 7, 8].filter(
-          (length) => !wonLevels.includes(length)
-        ).length;
-        newTotalPoints = existingPoints - levelsFailed / 6; // Deduct 1/6th point for each level failed
-      }
-  
+    
+      // Add 1 point whenever a game is completed
+      newTotalPoints = existingPoints - existingPoints + 1;
+    
       localStorage.setItem("points", newTotalPoints.toFixed(2));
       localStorage.setItem("pointsUpdated", "true"); // Set pointsUpdated to true after updating the points
-
       setPointsUpdated(true); // Set pointsUpdated to true after updating the points
-  
+    
       window.dispatchEvent(
         new CustomEvent("pointsUpdated", { detail: { points: newTotalPoints } })
       );

@@ -1,33 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import GameBoard from "./GameBoard";
-import GameBoardES from "./GameBoardES"; // Import the Spanish GameBoard
+import GameBoardES from "./GameBoardES";
 import GameBoardFR from "./GameBoardFR";
 import GameBoardPT from "./GameBoardPT";
 import NavBar from "./NavBar";
 
 function App() {
-  const [language, setLanguage] = useState(
-    localStorage.getItem("gameLanguage") || "EN"
-  );
-  // Update the toggle function to cycle through 'EN', 'FR', and 'ES'
+  const [language, setLanguage] = useState("EN"); // Default to EN initially
+
+  useEffect(() => {
+    // Directly reset language to English on every reload
+    setLanguage("EN");
+    localStorage.setItem("gameLanguage", "EN");
+    // Optionally, reset other game settings as needed
+    // For example, resetting game progress, scores, etc.
+  }, []);
+
   const toggleGameBoardLanguage = () => {
     setLanguage((prevLanguage) => {
+      let newLanguage = "EN"; // Default to English if no match found
       if (prevLanguage === "EN") {
-        localStorage.setItem("gameLanguage", "FR");
-        return "FR";
+        newLanguage = "FR";
+      } else if (prevLanguage === "FR") {
+        newLanguage = "ES";
+      } else if (prevLanguage === "ES") {
+        newLanguage = "PT";
+      } else if (prevLanguage === "PT") {
+        newLanguage = "EN";
       }
-      if (prevLanguage === "FR") {
-        localStorage.setItem("gameLanguage", "ES");
-        return "ES";
-      }
-      if (prevLanguage === "ES") {
-        localStorage.setItem("gameLanguage", "PT");
-        return "PT";
-      }
-      localStorage.setItem("gameLanguage", "EN");
-      return "EN";
+      
+      localStorage.setItem("gameLanguage", newLanguage);
+      return newLanguage;
     });
-    localStorage.setItem("pointsUpdated", "false"); // Reset pointsUpdated state
   };
 
   return (

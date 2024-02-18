@@ -3,6 +3,7 @@ import "./GameBoard.css";
 import wordsList from "./words.json";
 import wordsForGame from "./words_for_game_es.json";
 
+
 function GameBoard() {
   const [userInputES, setUserInput] = useState("");
   const [guessedWordsES, setGuessedWords] = useState([]);
@@ -332,7 +333,7 @@ function GameBoard() {
       setMessage({ text: "Correcto!", visible: true });
       setTimeout(() => {
         setMessage({ text: "", visible: false });
-      }, 4000); // Clear the message after 5 seconds
+      }, 2000); // Clear the message after 5 seconds
 
       // Add to won levels if not already included
       if (!wonLevelsES.includes(wordLengthES)) {
@@ -397,24 +398,17 @@ function GameBoard() {
       }, 5000);
     }
   
-    if (gameOverES && localStorage.getItem("pointsUpdated") === "false" && gamePlayedES) {
+    if (gameOverES && gamePlayedES) {
       const existingPointsES = parseFloat(localStorage.getItem("pointsES") || "0");
       let newTotalPointsES;
-  
-      if (allLevelsWonES) {
-        newTotalPointsES = existingPointsES + 1; // Add 1 point if all levels are won
-      } else {
-        const levelsFailed = [3, 4, 5, 6, 7, 8].filter(
-          (length) => !wonLevelsES.includes(length)
-        ).length;
-        newTotalPointsES = existingPointsES - levelsFailed / 6; // Deduct 1/6th point for each level failed
-      }
-  
+    
+      // Add 1 point whenever a game is completed
+      newTotalPointsES = existingPointsES - existingPointsES + 1;
+    
       localStorage.setItem("pointsES", newTotalPointsES.toFixed(2));
-      localStorage.setItem("pointsUpdated", "true"); // Set pointsUpdated to true after updating the points
-
+      localStorage.setItem("pointsUpdatedES", "true"); // Set pointsUpdated to true after updating the points
       setPointsUpdated(true); // Set pointsUpdated to true after updating the points
-  
+    
       window.dispatchEvent(
         new CustomEvent("pointsUpdatedES", { detail: { pointsES: newTotalPointsES } })
       );

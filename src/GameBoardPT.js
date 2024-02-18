@@ -332,7 +332,7 @@ function GameBoard() {
       setMessage({ text: "Correcto!", visible: true });
       setTimeout(() => {
         setMessage({ text: "", visible: false });
-      }, 4000); // Clear the message after 5 seconds
+      }, 2000); // Clear the message after 5 seconds
 
       // Add to won levels if not already included
       if (!wonLevelsPT.includes(wordLengthPT)) {
@@ -397,23 +397,17 @@ function GameBoard() {
       }, 5000);
     }
   
-    if (gameOverPT && localStorage.getItem("pointsUpdated") === "false" && gamePlayedPT) {
+    if (gameOverPT && gamePlayedPT) {
       const existingPointsPT = parseFloat(localStorage.getItem("pointsPT") || "0");
       let newTotalPointsPT;
-  
-      if (allLevelsWonPT) {
-        newTotalPointsPT = existingPointsPT + 1; // Add 1 point if all levels are won
-      } else {
-        const levelsFailed = [3, 4, 5, 6, 7, 8].filter(
-          (length) => !wonLevelsPT.includes(length)
-        ).length;
-        newTotalPointsPT = existingPointsPT - levelsFailed / 6; // Deduct 1/6th point for each level failed
-      }
-  
+    
+      // Add 1 point whenever a game is completed
+      newTotalPointsPT = existingPointsPT - existingPointsPT + 1;
+    
       localStorage.setItem("pointsPT", newTotalPointsPT.toFixed(2));
-      localStorage.setItem("pointsUpdated", "true"); // Set pointsUpdated to true after updating the points
+      localStorage.setItem("pointsUpdatedPT", "true"); // Set pointsUpdated to true after updating the points
       setPointsUpdated(true); // Set pointsUpdated to true after updating the points
-  
+    
       window.dispatchEvent(
         new CustomEvent("pointsUpdatedPT", { detail: { pointsPT: newTotalPointsPT } })
       );
