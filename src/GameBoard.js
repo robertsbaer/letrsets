@@ -401,14 +401,14 @@ function GameBoard() {
     if (gameOver && gamePlayed) {
       const existingPoints = parseFloat(localStorage.getItem("points") || "0");
       let newTotalPoints;
-    
+  
       // Add 1 point whenever a game is completed
-      newTotalPoints = existingPoints - existingPoints + 1;
-    
+      newTotalPoints = existingPoints + 1;
+  
       localStorage.setItem("points", newTotalPoints.toFixed(2));
       localStorage.setItem("pointsUpdated", "true"); // Set pointsUpdated to true after updating the points
       setPointsUpdated(true); // Set pointsUpdated to true after updating the points
-    
+  
       window.dispatchEvent(
         new CustomEvent("pointsUpdated", { detail: { points: newTotalPoints } })
       );

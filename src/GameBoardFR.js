@@ -403,7 +403,7 @@ function GameBoard() {
       let newTotalPointsFR;
     
       // Add 1 point whenever a game is completed
-      newTotalPointsFR = existingPointsFR - existingPointsFR + 1;
+      newTotalPointsFR = existingPointsFR + 1;
     
       localStorage.setItem("pointsFR", newTotalPointsFR.toFixed(2));
       localStorage.setItem("pointsUpdatedFR", "true"); // Set pointsUpdated to true after updating the points
