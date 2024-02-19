@@ -220,23 +220,36 @@ scrollbar-width: none;  /* Firefox */
 }
 
 .points-container {
+  padding: 15px;
+  background-color: #38404a; /* Adjust background color as desired */
+  border: 2px solid #ffffff; /* White border */
+  border-radius: 10px; /* Rounded corners */
+  margin-top: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  margin-top: 20px;
 }
+
+.points {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  color: #ffffff; /* Keep the text color white */
+  animation: scale-up 0.3s ease-in-out;
+}
+
 
 .medal-icon {
   font-size: 24px; /* Adjust the size of the medal icon */
   color: #ffd700; /* Gold color for the medal */
 }
 
-.points {
+/* .points {
   font-size: 20px;
   font-weight: bold;
   animation: scale-up 0.3s ease-in-out;
-}
+} */
 
 @keyframes scale-up {
   0% {

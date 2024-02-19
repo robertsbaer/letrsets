@@ -215,7 +215,7 @@ function NavBar({ toggleGameBoards }) {
       )}
       {modalType === "sharePoints" && (
         <div className="modal">
-          <button onClick={toggleModal(null)} className="close-button">
+          <button onClick={toggleModal(null)} className="instruction-button">
             X
           </button>
           <div className="points-container">
