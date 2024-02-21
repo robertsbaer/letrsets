@@ -397,7 +397,7 @@ function GameBoard() {
       }, 5000);
     }
   
-    if (gameOverPT && gamePlayedPT) {
+    if (gameOverPT && gamePlayedPT && !pointsUpdatedPT) {
       const existingPointsPT = parseFloat(localStorage.getItem("pointsPT") || "0");
       let newTotalPointsPT;
     
