@@ -21,6 +21,7 @@ function GameBoard() {
   const [isInitializedEN, setIsInitialized] = useState(false);
   const [pointsUpdatedEN, setPointsUpdated] = useState(false);
   const [gamePlayedEN, setGamePlayed] = useState(false);
+  const [showCoffeeButton, setShowCoffeeButton] = useState(false);
 
   useEffect(() => {
     const savedStateEN = localStorage.getItem("gameStateEN");
@@ -397,9 +398,11 @@ function GameBoard() {
         text: "Congratulations! Come back tomorrow for another round",
         visible: true,
       });
+      setShowCoffeeButton(true); // Show the coffee button when the game is over and all levels are won
       setTimeout(() => {
         setMessage({ text: "", visible: false });
-      }, 5000);
+        setShowCoffeeButton(false); // Hide the coffee button after a while
+      }, 15000);
     }
 
     if (gameOverEN && gamePlayedEN && !pointsUpdatedEN) {
@@ -518,6 +521,18 @@ function GameBoard() {
   return (
     <div className="gameBoardContainer">
       {showWordCheckEN && <Modal />}
+      {showCoffeeButton && (
+        <a
+          href="https://www.buymeacoffee.com/robertbaer"
+          rel="noreferrer"
+          target="_blank"
+        >
+          <img
+            src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=robertbaer&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff"
+            alt="Buy me a coffee button"
+          />
+        </a>
+      )}
       <div className="gameBoard">
         <div className="wordLengthSelection mobile-spacing">
           {[3, 4, 5, 6, 7, 8].map((length) => (
