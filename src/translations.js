@@ -88,6 +88,28 @@ const translations = {
         game: "jogo",
         shareGame: "Compartilhe o jogo"
     },
+    tr: {
+      howToPlay: "Nasıl Oynanır",
+      tapLanguage: "Oynamak istediğiniz dili seçin",
+      guessWord: "Her kelime uzunluğundaki kelimeyi tahmin edin",
+      selectWordLength: "Önce bir kelime uzunluğu seçin",
+      guessTheWord: "Kelimeyi tahmin et",
+      oneCorrectAnswer: "Her kelime uzunluğu için yalnızca 1 doğru cevap",
+      hint: "İpucu:",
+      singleLetterSets: "- Tek harf kümeleri kelimenizin sonunda yer alır",
+      useSetOnce: "- Her kelime uzunluğunda bir küme yalnızca bir kez kullanılabilir",
+      examples: "Örnekler",
+      theWordIs: "- Bulunması gereken 4 harfli kelime KEDİ",
+      tapThen: "- \"KE\" sonra \"Dİ\"ye dokunun",
+      pressSubmit: "- Gönder'e basın",
+      wrongAnswers: "Yanlış cevaplar",
+      correctGreen: "- Doğru kümeler Yeşil olacak",
+      incorrectRed: "- Yanlış kümeler Kırmızı olacak",
+      newPuzzle: "Yeni bir bulmaca gece yarısında kullanılabilir",
+      youveWon: "Kazandınız",
+      game: "oyun",
+      shareGame: "Oyunu paylaş"
+    }
       
   };
   export default translations;

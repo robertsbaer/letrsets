@@ -11,8 +11,8 @@ function NavBar({ toggleGameBoards }) {
   const [modalType, setModalType] = useState(null); // Handles which modal is currently open: null, 'share', 'sharePoints', 'help'
   const [flagCountry, setFlagCountry] = useState("GB");
 
-  const [points, setPoints] = useState(() =>
-    Math.floor(localStorage.getItem("points") || 0)
+  const [pointsEN, setPointsEN] = useState(() =>
+    Math.floor(localStorage.getItem("pointsEN") || 0)
   );
   const [pointsFR, setPointsFR] = useState(() =>
     Math.floor(localStorage.getItem("pointsFR") || 0)
@@ -23,14 +23,17 @@ function NavBar({ toggleGameBoards }) {
   const [pointsPT, setPointsPT] = useState(() =>
     Math.floor(localStorage.getItem("pointsPT") || 0)
   );
+  const [pointsTR, setPointsTR] = useState(() =>
+    Math.floor(localStorage.getItem("pointsTR") || 0)
+  );
   const [language, setLanguage] = useState(
     localStorage.getItem("translationLanguage") || "en"
   ); // Initial language set to English
 
   useEffect(() => {
-    const handleStorageChange = () => {
-      const updatedPoints = Math.floor(localStorage.getItem("points") || 0);
-      setPoints(updatedPoints);
+    const handleStorageChangeEN = () => {
+      const updatedPointsEN = Math.floor(localStorage.getItem("pointsEN") || 0);
+      setPointsEN(updatedPointsEN);
     };
 
     const handleStorageChangeFR = () => {
@@ -48,8 +51,13 @@ function NavBar({ toggleGameBoards }) {
       setPointsPT(updatedPointsPT);
     };
 
-    const handlePointsUpdated = (event) => {
-      setPoints(Math.floor(event.detail.points));
+    const handleStorageChangeTR = () => {
+      const updatedPointsTR = Math.floor(localStorage.getItem("pointsTR") || 0);
+      setPointsTR(updatedPointsTR);
+    };
+
+    const handlePointsUpdatedEN = (event) => {
+      setPointsEN(Math.floor(event.detail.pointsEN));
     };
 
     const handlePointsUpdatedFR = (event) => {
@@ -64,8 +72,12 @@ function NavBar({ toggleGameBoards }) {
       setPointsPT(Math.floor(event.detail.pointsPT));
     };
 
-    window.addEventListener("storage", handleStorageChange);
-    window.addEventListener("pointsUpdated", handlePointsUpdated);
+    const handlePointsUpdatedTR = (event) => {
+      setPointsTR(Math.floor(event.detail.pointsTR));
+    };
+
+    window.addEventListener("storageEN", handleStorageChangeEN);
+    window.addEventListener("pointsUpdatedEN", handlePointsUpdatedEN);
 
     window.addEventListener("storageFR", handleStorageChangeFR);
     window.addEventListener("pointsUpdatedFR", handlePointsUpdatedFR);
@@ -76,28 +88,35 @@ function NavBar({ toggleGameBoards }) {
     window.addEventListener("storagePT", handleStorageChangePT);
     window.addEventListener("pointsUpdatedPT", handlePointsUpdatedPT);
 
+    window.addEventListener("storageTR", handleStorageChangeTR);
+    window.addEventListener("pointsUpdatedTR", handlePointsUpdatedTR);
+
     return () => {
-      window.removeEventListener("storage", handleStorageChange);
-      window.removeEventListener("pointsUpdated", handlePointsUpdated);
+      window.removeEventListener("storageEN", handleStorageChangeEN);
+      window.removeEventListener("pointsUpdatedEN", handlePointsUpdatedEN);
       window.removeEventListener("storageFR", handleStorageChangeFR);
       window.removeEventListener("pointsUpdatedFR", handlePointsUpdatedFR);
       window.removeEventListener("storageES", handleStorageChangeES);
       window.removeEventListener("pointsUpdatedES", handlePointsUpdatedES);
       window.removeEventListener("storagePT", handleStorageChangePT);
       window.removeEventListener("pointsUpdatedPT", handlePointsUpdatedPT);
+      window.removeEventListener("storageTR", handleStorageChangeTR);
+      window.removeEventListener("pointsUpdatedTR", handlePointsUpdatedTR);
     };
   }, []);
 
   useEffect(() => {
-    const points = Math.floor(localStorage.getItem("points") || 0);
+    const pointsEN = Math.floor(localStorage.getItem("pointsEN") || 0);
     const pointsFR = Math.floor(localStorage.getItem("pointsFR") || 0);
     const pointsES = Math.floor(localStorage.getItem("pointsES") || 0);
     const pointsPT = Math.floor(localStorage.getItem("pointsPT") || 0);
+    const pointsTR = Math.floor(localStorage.getItem("pointsTR") || 0);
 
-    setPoints(points);
+    setPointsEN(pointsEN);
     setPointsFR(pointsFR);
     setPointsES(pointsES);
     setPointsPT(pointsPT);
+    setPointsTR(pointsTR);
   }, []);
 
   const toggleModal = (type) => () => {
@@ -109,7 +128,8 @@ function NavBar({ toggleGameBoards }) {
         // Toggle country flag among Great Britain, France, Spain, and Portugal
         const newCountry = prevCountry === "GB" ? "FR" : 
                            prevCountry === "FR" ? "ES" : 
-                           prevCountry === "ES" ? "PT" : "GB";
+                           prevCountry === "ES" ? "PT" :
+                           prevCountry === "PT" ? "TR" : "GB";
         localStorage.setItem("flagCountry", newCountry);
         return newCountry;
     });
@@ -119,6 +139,7 @@ function NavBar({ toggleGameBoards }) {
         if (prevLanguage === "en") return "fr";
         if (prevLanguage === "fr") return "es";
         if (prevLanguage === "es") return "pt";
+        if (prevLanguage === "pt") return "tr";
         return "en"; // Default back to English if it's Portuguese
     });
 
@@ -222,7 +243,7 @@ function NavBar({ toggleGameBoards }) {
             <FaMedal className="medal-icon" />
             <p className="points">
               In English {translations["en"].youveWon}{" "}
-              <span className="emphasize">{points}</span>{" "}
+              <span className="emphasize">{pointsEN}</span>{" "}
               {translations["en"].game}
             </p>
           </div>
@@ -248,6 +269,14 @@ function NavBar({ toggleGameBoards }) {
               En Potuguese {translations["pt"].youveWon}{" "}
               <span className="emphasize">{pointsPT}</span>{" "}
               {translations["pt"].game}
+            </p>
+          </div>
+          <div className="points-container">
+            <FaMedal className="medal-icon" />
+            <p className="points">
+              Türkçe'de {translations["tr"].youveWon}{" "}
+              <span className="emphasize">{pointsTR}</span>{" "}
+              {translations["tr"].game}
             </p>
           </div>
         </div>

@@ -139,14 +139,14 @@ function GameBoard() {
       const allLevelsWonES = [3, 4, 5, 6, 7, 8].every((length) =>
         savedWonLevelsES.includes(length)
       );
-      const existingPointsES = parseFloat(localStorage.getItem("pointsES") || "0");
+      const existingPointsES = (localStorage.getItem("pointsES") || "0");
       let newTotalPointsES = existingPointsES;
 
       if (allLevelsWonES) {
         newTotalPointsES += 1; // Add 1 point if all levels are won
       }
 
-      localStorage.setItem("pointsES", newTotalPointsES.toFixed(2));
+      localStorage.setItem("pointsES", newTotalPointsES);
 
       // Restore points after clearing
       if (pointsES) {
@@ -177,7 +177,7 @@ function GameBoard() {
     const month = String(today.getMonth() + 1).padStart(2, "0"); // JS months are 0-indexed
     const day = String(today.getDate()).padStart(2, "0");
     const todayKey = `${year}-${month}-${day}`;
-    localStorage.setItem("pointsUpdated", "false");
+    localStorage.setItem("pointsUpdatedES", "false");
 
 
     // Get the words for today from the JSON file
@@ -399,13 +399,13 @@ function GameBoard() {
     }
   
     if (gameOverES && gamePlayedES && !pointsUpdatedES) {
-      const existingPointsES = parseFloat(localStorage.getItem("pointsES") || "0");
+      const existingPointsES = Number(localStorage.getItem("pointsES") || "0");
       let newTotalPointsES;
     
       // Add 1 point whenever a game is completed
       newTotalPointsES = existingPointsES + 1;
       
-      localStorage.setItem("pointsES", newTotalPointsES.toFixed(2));
+      localStorage.setItem("pointsES", newTotalPointsES.toString());
       localStorage.setItem("pointsUpdatedES", "true"); // Set pointsUpdated to true after updating the points
       setPointsUpdated(true); // Set pointsUpdated to true after updating the points
     

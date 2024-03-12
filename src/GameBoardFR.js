@@ -3,13 +3,12 @@ import "./GameBoard.css";
 import wordsList from "./words.json";
 import wordsForGame from "./words_for_game_fr.json";
 
-
 function GameBoard() {
   const [userInputFR, setUserInput] = useState("");
   const [guessedWordsFR, setGuessedWords] = useState([]);
   const [letterSetsFR, setLetterSets] = useState([]);
   const [selectedWordsFR, setSelectedWords] = useState([]);
-  const [attemptsFR, setAttempts] = useState(0);
+  const [attemFRsFR, setAttemFRs] = useState(0);
   const [gameOverFR, setGameOver] = useState(false);
   const [messageFR, setMessage] = useState({ text: "", visible: false });
   const [showWordCheckFR, setShowWordCheck] = useState(false);
@@ -42,7 +41,7 @@ function GameBoard() {
       setGuessedWords(state.guessedWordsFR);
       setLetterSets(state.letterSetsFR);
       setSelectedWords(state.selectedWordsFR);
-      setAttempts(state.attemptsFR);
+      setAttemFRs(state.attemFRsFR);
       setGameOver(state.gameOverFR);
       setMessage(state.messageFR);
       setShowWordCheck(state.showWordCheckFR);
@@ -64,7 +63,7 @@ function GameBoard() {
         guessedWordsFR,
         letterSetsFR,
         selectedWordsFR,
-        attemptsFR,
+        attemFRsFR,
         gameOverFR,
         messageFR,
         showWordCheckFR,
@@ -81,7 +80,7 @@ function GameBoard() {
     guessedWordsFR,
     letterSetsFR,
     selectedWordsFR,
-    attemptsFR,
+    attemFRsFR,
     gameOverFR,
     messageFR,
     showWordCheckFR,
@@ -139,14 +138,14 @@ function GameBoard() {
       const allLevelsWonFR = [3, 4, 5, 6, 7, 8].every((length) =>
         savedWonLevelsFR.includes(length)
       );
-      const existingPointsFR = parseFloat(localStorage.getItem("pointsFR") || "0");
+      const existingPointsFR = (localStorage.getItem("pointsFR") || "0");
       let newTotalPointsFR = existingPointsFR;
 
       if (allLevelsWonFR) {
         newTotalPointsFR += 1; // Add 1 point if all levels are won
       }
 
-      localStorage.setItem("pointsFR", newTotalPointsFR.toFixed(2));
+      localStorage.setItem("pointsFR", newTotalPointsFR);
 
       // Restore points after clearing
       if (pointsFR) {
@@ -177,7 +176,7 @@ function GameBoard() {
     const month = String(today.getMonth() + 1).padStart(2, "0"); // JS months are 0-indexed
     const day = String(today.getDate()).padStart(2, "0");
     const todayKey = `${year}-${month}-${day}`;
-    localStorage.setItem("pointsUpdated", "false");
+    localStorage.setItem("pointsUpdatedFR", "false");
 
 
     // Get the words for today from the JSON file
@@ -287,7 +286,7 @@ function GameBoard() {
         // Update state of guessed words and the game overall
         handleCorrectGuess(inputWordFR);
       } else {
-        // Show incorrect attempt message
+        // Show incorrect attemFR message
         setMessage({
           text: "Faux. Essayez à nouveau!",
           visible: true,
@@ -307,9 +306,9 @@ function GameBoard() {
       }, 4000); // Clear the message after 5 seconds
     }
 
-    // Clear user input for the next attempt
+    // Clear user input for the next attemFR
     setUserInput("");
-    setAttempts((prevAttempts) => prevAttempts + 1);
+    setAttemFRs((prevAttemFRs) => prevAttemFRs + 1);
   };
 
   useEffect(() => {
@@ -370,7 +369,7 @@ function GameBoard() {
         text: "Les lettres individuelles se trouvent à la fin du mot.",
         visible: true,
       });
-      // Optionally, you can decide if you want to clear this message after some time
+      // OFRionally, you can decide if you want to clear this message after some time
       setTimeout(() => {
         setMessage({ text: "", visible: false });
       }, 5000); // Clear the message after 5 seconds
@@ -399,13 +398,13 @@ function GameBoard() {
     }
   
     if (gameOverFR && gamePlayedFR && !pointsUpdatedFR) {
-      const existingPointsFR = parseFloat(localStorage.getItem("pointsFR") || "0");
+      const existingPointsFR = Number(localStorage.getItem("pointsFR") || "0");
       let newTotalPointsFR;
     
       // Add 1 point whenever a game is completed
       newTotalPointsFR = existingPointsFR + 1;
     
-      localStorage.setItem("pointsFR", newTotalPointsFR.toFixed(2));
+      localStorage.setItem("pointsFR", newTotalPointsFR.toString());
       localStorage.setItem("pointsUpdatedFR", "true"); // Set pointsUpdated to true after updating the points
       setPointsUpdated(true); // Set pointsUpdated to true after updating the points
     
