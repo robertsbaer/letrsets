@@ -124,29 +124,33 @@ function NavBar({ toggleGameBoards }) {
   };
 
   const handleToggleGameBoards = () => {
-    setFlagCountry(prevCountry => {
-        // Toggle country flag among Great Britain, France, Spain, and Portugal
-        const newCountry = prevCountry === "GB" ? "FR" : 
-                           prevCountry === "FR" ? "ES" : 
-                           prevCountry === "ES" ? "PT" :
-                           prevCountry === "PT" ? "TR" : "GB";
-        localStorage.setItem("flagCountry", newCountry);
-        return newCountry;
+    setFlagCountry((prevCountry) => {
+      // Toggle country flag among Great Britain, France, Spain, and Portugal
+      const newCountry =
+        prevCountry === "GB"
+          ? "FR"
+          : prevCountry === "FR"
+          ? "ES"
+          : prevCountry === "ES"
+          ? "PT"
+          : prevCountry === "PT"
+          ? "TR"
+          : "GB";
+      localStorage.setItem("flagCountry", newCountry);
+      return newCountry;
     });
 
-    setLanguage(prevLanguage => {
-        // Toggle language among English, French, Spanish, and Portuguese
-        if (prevLanguage === "en") return "fr";
-        if (prevLanguage === "fr") return "es";
-        if (prevLanguage === "es") return "pt";
-        if (prevLanguage === "pt") return "tr";
-        return "en"; // Default back to English if it's Portuguese
+    setLanguage((prevLanguage) => {
+      // Toggle language among English, French, Spanish, and Portuguese
+      if (prevLanguage === "en") return "fr";
+      if (prevLanguage === "fr") return "es";
+      if (prevLanguage === "es") return "pt";
+      if (prevLanguage === "pt") return "tr";
+      return "en"; // Default back to English if it's Portuguese
     });
 
     toggleGameBoards();
-};
-
-
+  };
 
   return (
     <div className="NavBar">

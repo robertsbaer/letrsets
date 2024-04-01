@@ -3,7 +3,6 @@ import "./GameBoard.css";
 import wordsList from "./words.json";
 import wordsForGame from "./words_for_game_es.json";
 
-
 function GameBoard() {
   const [userInputES, setUserInput] = useState("");
   const [guessedWordsES, setGuessedWords] = useState([]);
@@ -26,7 +25,7 @@ function GameBoard() {
     const savedStateES = localStorage.getItem("gameStateES");
     const lastPlayedDateES = localStorage.getItem("lastPlayedDateES");
     const today = new Date().toDateString();
-  
+
     if (lastPlayedDateES !== today) {
       const pointsES = localStorage.getItem("pointsES");
       localStorage.removeItem("gameStateES");
@@ -129,7 +128,7 @@ function GameBoard() {
       // Save points before clearing localStorage
       const pointsES = localStorage.getItem("pointsES");
 
-      // Remove specific items instead of clearing everything 
+      // Remove specific items instead of clearing everything
       localStorage.removeItem("gameStateES");
       localStorage.removeItem("lastPlayedDateES");
 
@@ -139,7 +138,7 @@ function GameBoard() {
       const allLevelsWonES = [3, 4, 5, 6, 7, 8].every((length) =>
         savedWonLevelsES.includes(length)
       );
-      const existingPointsES = (localStorage.getItem("pointsES") || "0");
+      const existingPointsES = localStorage.getItem("pointsES") || "0";
       let newTotalPointsES = existingPointsES;
 
       if (allLevelsWonES) {
@@ -178,7 +177,6 @@ function GameBoard() {
     const day = String(today.getDate()).padStart(2, "0");
     const todayKey = `${year}-${month}-${day}`;
     localStorage.setItem("pointsUpdatedES", "false");
-
 
     // Get the words for today from the JSON file
     const wordsForToday = wordsForGame[todayKey];
@@ -386,7 +384,7 @@ function GameBoard() {
     const allLevelsWonES = [3, 4, 5, 6, 7, 8].every((length) =>
       wonLevelsES.includes(length)
     );
-  
+
     if (allLevelsWonES && selectedWordsES.length && !gameOverES) {
       setGameOver(true);
       setMessage({
@@ -397,23 +395,31 @@ function GameBoard() {
         setMessage({ text: "", visible: false });
       }, 5000);
     }
-  
+
     if (gameOverES && gamePlayedES && !pointsUpdatedES) {
       const existingPointsES = Number(localStorage.getItem("pointsES") || "0");
       let newTotalPointsES;
-    
+
       // Add 1 point whenever a game is completed
       newTotalPointsES = existingPointsES + 1;
-      
+
       localStorage.setItem("pointsES", newTotalPointsES.toString());
       localStorage.setItem("pointsUpdatedES", "true"); // Set pointsUpdated to true after updating the points
       setPointsUpdated(true); // Set pointsUpdated to true after updating the points
-    
+
       window.dispatchEvent(
-        new CustomEvent("pointsUpdatedES", { detail: { pointsES: newTotalPointsES } })
+        new CustomEvent("pointsUpdatedES", {
+          detail: { pointsES: newTotalPointsES },
+        })
       );
     }
-  }, [wonLevelsES, selectedWordsES.length, gameOverES, pointsUpdatedES, gamePlayedES]);
+  }, [
+    wonLevelsES,
+    selectedWordsES.length,
+    gameOverES,
+    pointsUpdatedES,
+    gamePlayedES,
+  ]);
 
   const giveHint = () => {
     // Filter for unguessed words of the selected length
@@ -443,7 +449,10 @@ function GameBoard() {
         setHintIndex(0);
       }
     } else {
-      setMessage({ text: "¡Seleccione una longitud de palabra!", visible: true });
+      setMessage({
+        text: "¡Seleccione una longitud de palabra!",
+        visible: true,
+      });
       setTimeout(() => {
         setMessage({ text: "", visible: false });
       }, 5000); // 5000 milliseconds = 10 seconds
@@ -568,6 +577,7 @@ function GameBoard() {
               }
               placeholder="Tu palabra a encontrar"
               className="inputStyle"
+              readOnly
             />
             {/* Clear button right next to the input field */}
             <button

@@ -1,0 +1,7 @@
+.AppText {
+  font-size: large;
+}
+
+.transparent-text {
+  color: #282c34; /* Adjust the alpha value (0.5) to change the transparency */
+}

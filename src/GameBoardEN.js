@@ -595,6 +595,7 @@ function GameBoard() {
               }
               placeholder="Your word"
               className="inputStyle"
+              readOnly
             />
             {/* Clear button right next to the input field */}
             <button

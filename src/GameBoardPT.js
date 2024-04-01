@@ -25,7 +25,7 @@ function GameBoard() {
     const savedStatePT = localStorage.getItem("gameStatePT");
     const lastPlayedDatePT = localStorage.getItem("lastPlayedDatePT");
     const today = new Date().toDateString();
-  
+
     if (lastPlayedDatePT !== today) {
       const pointsPT = localStorage.getItem("pointsPT");
       localStorage.removeItem("gameStatePT");
@@ -128,7 +128,7 @@ function GameBoard() {
       // Save points before clearing localStorage
       const pointsPT = localStorage.getItem("pointsPT");
 
-      // Remove specific items instead of clearing everything 
+      // Remove specific items instead of clearing everything
       localStorage.removeItem("gameStatePT");
       localStorage.removeItem("lastPlayedDatePT");
 
@@ -138,7 +138,7 @@ function GameBoard() {
       const allLevelsWonPT = [3, 4, 5, 6, 7, 8].every((length) =>
         savedWonLevelsPT.includes(length)
       );
-      const existingPointsPT = (localStorage.getItem("pointsPT") || "0");
+      const existingPointsPT = localStorage.getItem("pointsPT") || "0";
       let newTotalPointsPT = existingPointsPT;
 
       if (allLevelsWonPT) {
@@ -177,7 +177,6 @@ function GameBoard() {
     const day = String(today.getDate()).padStart(2, "0");
     const todayKey = `${year}-${month}-${day}`;
     localStorage.setItem("pointsUpdatedPT", "false");
-
 
     // Get the words for today from the JSON file
     const wordsForToday = wordsForGame[todayKey];
@@ -385,7 +384,7 @@ function GameBoard() {
     const allLevelsWonPT = [3, 4, 5, 6, 7, 8].every((length) =>
       wonLevelsPT.includes(length)
     );
-  
+
     if (allLevelsWonPT && selectedWordsPT.length && !gameOverPT) {
       setGameOver(true);
       setMessage({
@@ -396,23 +395,31 @@ function GameBoard() {
         setMessage({ text: "", visible: false });
       }, 5000);
     }
-  
+
     if (gameOverPT && gamePlayedPT && !pointsUpdatedPT) {
       const existingPointsPT = Number(localStorage.getItem("pointsPT") || "0");
       let newTotalPointsPT;
-    
+
       // Add 1 point whenever a game is completed
       newTotalPointsPT = existingPointsPT + 1;
-    
+
       localStorage.setItem("pointsPT", newTotalPointsPT.toString());
       localStorage.setItem("pointsUpdatedPT", "true"); // Set pointsUpdated to true after updating the points
       setPointsUpdated(true); // Set pointsUpdated to true after updating the points
-    
+
       window.dispatchEvent(
-        new CustomEvent("pointsUpdatedPT", { detail: { pointsPT: newTotalPointsPT } })
+        new CustomEvent("pointsUpdatedPT", {
+          detail: { pointsPT: newTotalPointsPT },
+        })
       );
     }
-  }, [wonLevelsPT, selectedWordsPT.length, gameOverPT, pointsUpdatedPT, gamePlayedPT]);
+  }, [
+    wonLevelsPT,
+    selectedWordsPT.length,
+    gameOverPT,
+    pointsUpdatedPT,
+    gamePlayedPT,
+  ]);
 
   const giveHint = () => {
     // Filter for unguessed words of the selected length
@@ -442,7 +449,10 @@ function GameBoard() {
         setHintIndex(0);
       }
     } else {
-      setMessage({ text: "Selecione um comprimento de palavra!", visible: true });
+      setMessage({
+        text: "Selecione um comprimento de palavra!",
+        visible: true,
+      });
       setTimeout(() => {
         setMessage({ text: "", visible: false });
       }, 5000); // 5000 milliseconds = 10 seconds
@@ -567,6 +577,7 @@ function GameBoard() {
               }
               placeholder="Sua palavra a encontrar"
               className="inputStyle"
+              readOnly
             />
             {/* Clear button right next to the input field */}
             <button
