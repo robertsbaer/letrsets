@@ -4,7 +4,7 @@ import wordsList from "./words.json";
 import wordsForGame from "./words_for_game_en.json";
 import ReactGA from "react-ga4";
 
-function GameBoard() {
+function GameBoardEN() {
   const [userInputEN, setUserInput] = useState("");
   const [guessedWordsEN, setGuessedWords] = useState([]);
   const [letterSetsEN, setLetterSets] = useState([]);
@@ -19,7 +19,7 @@ function GameBoard() {
   const [hintIndexEN, setHintIndex] = useState(0);
   const [usedSetsEN, setUsedSets] = useState({});
   const [isInitializedEN, setIsInitialized] = useState(false);
-  const [pointsUpdatedEN, setPointsUpdated] = useState(false);
+  const [pointsUpdatedEN, setPointsUpdatedEN] = useState(false);
   const [gamePlayedEN, setGamePlayed] = useState(false);
   const [showCoffeeButton, setShowCoffeeButton] = useState(false);
 
@@ -414,7 +414,7 @@ function GameBoard() {
 
       localStorage.setItem("pointsEN", newTotalPointsEN.toString());
       localStorage.setItem("pointsUpdatedEN", "true"); // Set pointsUpdated to true after updating the points
-      setPointsUpdated(true); // Set pointsUpdated to true after updating the points
+      setPointsUpdatedEN(true); // Set pointsUpdated to true after updating the points
 
       window.dispatchEvent(
         new CustomEvent("pointsUpdatedEN", {
@@ -631,4 +631,4 @@ function GameBoard() {
   );
 }
 
-export default GameBoard;
+export default GameBoardEN;

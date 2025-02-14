@@ -6,7 +6,7 @@ function Article() {
     <div className="AppText">
       <header>
         <h1 className="transparent-text">
-          Mastering Letrsets.com: The Ultimate Word Game Challenge
+          Mastering Letrsets.com: A Word Game
         </h1>
       </header>
       <meta

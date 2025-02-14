@@ -18,7 +18,7 @@ function GameBoard() {
   const [hintIndexPT, setHintIndex] = useState(0);
   const [usedSetsPT, setUsedSets] = useState({});
   const [isInitializedPT, setIsInitialized] = useState(false);
-  const [pointsUpdatedPT, setPointsUpdated] = useState(false);
+  const [pointsUpdatedPT, setPointsUpdatedPT] = useState(false);
   const [gamePlayedPT, setGamePlayed] = useState(false);
 
   useEffect(() => {
@@ -405,7 +405,7 @@ function GameBoard() {
 
       localStorage.setItem("pointsPT", newTotalPointsPT.toString());
       localStorage.setItem("pointsUpdatedPT", "true"); // Set pointsUpdated to true after updating the points
-      setPointsUpdated(true); // Set pointsUpdated to true after updating the points
+      setPointsUpdatedPT(true); // Set pointsUpdated to true after updating the points
 
       window.dispatchEvent(
         new CustomEvent("pointsUpdatedPT", {
